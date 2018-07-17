@@ -1,0 +1,21 @@
+
+<div id = "login-form" class = "col-md-4 col-md-offset-4 animated fadeInLeftBig">
+        <div class = "panel panel-default">
+            <div class = "panel-body"> 
+                <toaster-container></toaster-container>
+                <h2 class = "form-signin-heading">Sign In</h2> 
+                <form name = "loginForm" ng-submit = "$lg.loginUser(loginForm.$valid)" novalidate>
+                    <div = "form-group">
+                        <label for = "email-input">Email Id </label>
+                        <span ng-class="{'glyphicon glyphicon-asterisk pull-right':loginForm.email.$error.email || loginForm.email.$error.required}"></span>
+                        <input type = "email" id = "email-input" name = "email" class = "form-control" ng-model = "$lg.user.email" placeholder = ".... your email is safe with us." required>
+                        <label for = "password">Password </label>
+                        <span ng-class = "{'glyphicon glyphicon-asterisk pull-right' : loginForm.password.$error.pattern || loginForm.password.$error.minlength || loginForm.password.$error.maxlength || loginForm.password.$error.required}"></span>
+                        <input type = "password" id = "password-input" name = "password" class = "form-control" ng-model = "$lg.user.password" ng-pattern = "/^\S*$/" ng-maxlength = "8" ng-minlength = "4" placeholder = "...be sure is a strong password." data-toggle="popover" data-content="4-16 characters, no spaces allowed." data-placement="right" data-trigger="focus"  required> <br>                    
+                        <p class = "accout pull-left">Don't have an account?<a ui-sref = "register">Register</a> </p> <br/>
+                        <button class = "btn btn-lg btn-primary btn-block" type="submit" ng-disabled = "loginForm.$invalid"> LogIn </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  

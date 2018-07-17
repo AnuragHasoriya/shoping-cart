@@ -1,0 +1,26 @@
+    <div class = "col-md-4 col-md-offset-4 animated fadeInLeftBig">
+        <div class = "panel panel-default">
+            <div class = "panel-body"> 
+                <h2> Please enter your details</h2>
+                <toaster-container></toaster-container>
+                <form name = "profileForm" ng-submit = "$pf.userProfile(profileForm.$valid)" novalidate>
+                    <div = "form-group">
+                        <label for = "firstname-input">First Name </label>
+                        <span ng-class="{'glyphicon glyphicon-asterisk pull-right':profileForm.firstname.$error.required}"></span>
+                        <input type = "text" id = "firstname-input" name = "firstname" class = "form-control" ng-model = "$pf.user.firstname" placeholder = ".... your First name." required>
+                        <label for = "lastname-input">Last Name </label>
+                        <span ng-class="{'glyphicon glyphicon-asterisk pull-right':profileForm.lastname.$error.required}"></span>
+                        <input type = "text" id = "lastname-input" name = "lastname" class = "form-control" ng-model = "$pf.user.lastname" placeholder = ".... your Last name." required>
+                        <label for = "phone-input">Phone no </label>
+                        <span ng-class = "{'glyphicon glyphicon-asterisk pull-right' : profileForm.phoneno.$error.minlength || profileForm.phoneno.$error.maxlength || profileForm.phoneno.$error.required}"></span>
+                        <input type = "text" id = "phone-input" ng-pattern = "/^\d{10}$/" name = "phoneno" class = "form-control" ng-model = "$pf.user.phoneno" ng-maxlength = "10" ng-minlength = "10" placeholder = "...phone no. please." data-toggle="popover" data-content="10 characters, no spaces allowed." data-placement="right" data-trigger="focus"  required> <br>
+                        <label for = "dob-input">Date of birth </label>
+                        <span ng-class = "{'glyphicon glyphicon-asterisk pull-right': profileForm.dob.$error.required}"></span>
+                        <input type = "date" id = "dob-input" name = "dob" class = "form-control" ng-model = "$pf.user.dob" required><br>
+                        <button type = "submit" ng-disabled = "profileForm.$invalid" class="btn btn-primary btn-lg btn-block"> Save </button>
+                    </div>
+                </form>
+                <p><span class = "glyphicon glyphicon-asterisk">Required </span></p>
+            </div>
+        </div>
+    </div>  

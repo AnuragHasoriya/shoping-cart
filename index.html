@@ -1,0 +1,69 @@
+<html ng-app = "shoppingCart">
+    <head>
+        <!-- <base href = "/" /> -->
+        <title>Shop cart</title>
+
+        <meta charset = "utf-8">
+        <meta http-equiv = "X-UA-Compatible" content = "IE-edge">
+        <meta name = "viewport" content = "width = device-width, initail-scale 1">
+        <meta name = "description" content = "">
+        <meta name = "author" content = ""> 
+
+        <!-- bootstrap css -->
+        <link rel = "stylesheet" href = "assets/css/bootstrap.css">
+        <link rel = "stylesheet" href = "assets/css/toaster.min.css">
+        
+        <!-- source css -->
+        <link rel = "stylesheet" href = "assets/css/register.css">
+        <link rel = "stylesheet" href = "assets/css/animate.css">
+        <link rel = "stylesheet" href = "assets/css/custom.css">
+        <link rel = "stylesheet" href = "assets/css/login.css">
+    </head>
+    <body>
+
+        <div ui-view class = "slide-animation"></div>
+
+        <!-- Load Angular -->
+        <script src = "assets/lib/angular.min.js"></script>
+        <script src = "assets/lib/angular-animate.js"></script>
+        <script src = "assets/lib/angular-ui-router.min.js"></script>
+        <script src = "assets/lib/firebase.js"></script>
+        <script src = "assets/lib/toaster.min.js"></script>
+        <script src = "assets/lib/angularfire.min.js"></script>
+
+        <!-- initilizing firebase -->
+        <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+        <script>
+            var config = {
+            apiKey: "AIzaSyAz5P7KQ_-AJOJYG2YZ7MJUekBwpRYVytI",
+            authDomain: "shooping-cart-8f368.firebaseapp.com",
+            databaseURL: "https://shooping-cart-8f368.firebaseio.com",
+            projectId: "shooping-cart-8f368",
+            storageBucket: "shooping-cart-8f368.appspot.com",
+            messagingSenderId: "851712354757"
+            };
+            firebase.initializeApp(config);
+        </script>
+
+        <!-- load Source -->
+        <script src = "app/app.js"></script>
+        <script src = "app/app.route.js"></script>
+        <script src = "app/components/landing/landing.controller.js"></script>
+        <script src = "app/shared/layout/header.controller.js"></script>
+        <script src = "app/components/login/loading.controller.js"></script>
+        <script src = "app/components/login/login.controller.js"></script>
+        <script src = "app/components/register/registration.controller.js"></script>
+        <script src = "app/components/profile/profile.controller.js"></script>
+
+        <!-- load service -->
+        <script src = "app/services/firebase.service.js"></script>
+
+        <!-- jquery -->
+        <script src = "assets/lib/jquery.js"></script>
+
+        <!-- bootstrap js -->
+        <script src = "assets/lib/bootstrap.min.js"></script>
+        <script src = "assets/lib/tooltip.js"></script>
+
+    </body>
+</html>
