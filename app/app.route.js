@@ -39,9 +39,15 @@
                     
                 }
             })
+            .state('emailVerify', {
+                cache : true,
+                url: '/verify-email?mode&oobCode',
+                templateUrl: 'app/components/auth/verify-email.html',
+                controller: 'emailVerifyController as $emvr',
+            })
             .state("profile", {
                 cache : true,
-                url : "/profile/__/auth/action",
+                url : "/profile/:uid",
                 templateUrl : "app/components/profile/profile.html",
                 controller :"profileController as $pf",
                 function($stateParams){

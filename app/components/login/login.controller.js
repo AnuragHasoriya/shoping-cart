@@ -16,11 +16,9 @@
             }
 
             vm.loginUser = function() {
-                var emailVerified;
-                if(user != null) {
-                    emailVerified = user.emailVerified;
-                }
-                if(emailVerified == true) {
+                var currentUser = firebaseService.getCurrentUser();
+                var emailVerified = currentUser != null ? user.emailVerified : false;
+                if(emailVerified) {
                     firebaseService.signIn(vm.user.email, vm.user.password)
                     .then(firebaseServiceSuccess)
                     .catch(firebaseServiceFail);
@@ -35,8 +33,7 @@
                 $timeout(function() {
                     $state.go("shoppingCart.dashboard");
                 }, 300);
-                    
-}
+            }
 
             function firebaseServiceFail(error) {
                 var errorCode = error.code;

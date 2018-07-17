@@ -9,6 +9,7 @@
             signIn : signIn,
             logOut : logOut,
             emailVerify : emailVerify,
+            getCurrentUser: getCurrentUser
             // tokenId : tokenId
         }
 
@@ -24,8 +25,12 @@
             return firebase.auth().signOut();
         }
 
-        function emailVerify(currentuser,actionCodeSettings) {
-            return  currentuser.sendEmailVerification(actionCodeSettings);
+        function getCurrentUser(){
+            return firebase.auth().currentUser;
+        }
+
+        function emailVerify(currentuser) {
+            return  currentuser.sendEmailVerification();
         }
 
     

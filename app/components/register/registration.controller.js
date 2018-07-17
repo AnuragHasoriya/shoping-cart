@@ -14,9 +14,7 @@
                 $("[data-toggle = 'popover']").popover();
             };
 
-            // vm.goToLogin = function() {
-            //     $state.go("login");
-            // }
+            vm.path = 'http://localhost:9090';
 
             vm.registerUser = function() {
                 firebaseService.signUp(vm.user.email, vm.user.password)
@@ -26,13 +24,7 @@
             
             function firebaseServiceSuccess(user) {
                 var currentuser = firebase.auth().currentUser;
-                currentuser.emailVerified = true;
-                var actionCodeSettings = {
-                    url : "http://localhost:8080/#!/profile/__/auth/action" + currentuser.email + currentuser.emailVerified,
-                    handleCodeInApp : false
-                }
-
-                firebaseService.emailVerify(currentuser, actionCodeSettings)
+                firebaseService.emailVerify(currentuser)
                     .then(emailVerifySuccess)
                     .catch(emailVerifyFaliure);
             }
