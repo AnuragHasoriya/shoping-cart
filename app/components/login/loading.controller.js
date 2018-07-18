@@ -19,12 +19,12 @@
     function redirect() {
       $timeout(function () {
         
-        var user = firebase.auth().currentUser;
+        var currentUser = firebase.auth().currentUser;
         var emailVerified;
-        if(user != null) {
-          emailVerified = user.emailVerified;
+        if(currentUser != null) {
+          emailVerified = currentUser.emailVerified;
         }
-        if (user && (emailVerified == true)) {
+        if (currentUser && (emailVerified == true)) {
             $state.go('shoppingCart.dashboard');
         } else {
             $state.go('login');

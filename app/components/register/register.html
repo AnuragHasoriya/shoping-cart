@@ -3,7 +3,7 @@
         <div class = "panel-body"> 
             <h2> Register in 2 easy steps!</h2>
             <toaster-container></toaster-container>
-            <form name = "registrationForm" ng-submit = "$rg.registerUser(registrationForm.$valid)" novalidate>
+            <form name = "registrationForm" autocomplete = "false" ng-submit = "$rg.registerUser(registrationForm.$valid)"  novalidate>
                 <div = "form-group">
                     <label for = "email-input">Email Id </label>
                     <span ng-class="{'glyphicon glyphicon-asterisk pull-right':registrationForm.email.$error.email || registrationForm.email.$error.required}"></span>

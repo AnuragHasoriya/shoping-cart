@@ -81,9 +81,10 @@
         
         $transitions.onSuccess({to: true }, ($transition) => {
            
-            if($transition.$from() == $transition.$to()){
+            if($transition.$from() == $transition.$to()) {
                 $state.go('loading');
             }
+
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) { 
                     var currentUser = user;

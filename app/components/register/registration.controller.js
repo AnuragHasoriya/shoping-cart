@@ -44,8 +44,10 @@
 
             function emailVerifySuccess() {
                 // alert("please check your email");
-                toaster.pop("info", "Email verify", "Please complete your profile");
-                $state.go("login");
+                toaster.pop("info", "Email verify", "Please check your mail");
+                $timeout(function() {
+                    $state.go("login");
+                }, 1000)
             }
 
             function emailVerifyFaliure() {

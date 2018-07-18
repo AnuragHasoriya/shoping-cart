@@ -17,7 +17,7 @@
                     firebase.database().ref().child('users')
                       .child(firebaseService.getCurrentUser().uid)
                       .update({ emailVerified: true });
-                    toastr.success('Verification happened', 'Success!');
+                    toaster.success('Verification happened', 'Success!');
                     $state.go('profile', {uid: firebaseService.getCurrentUser().uid});
                   })
                   .catch(function(error) {

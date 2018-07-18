@@ -11,28 +11,28 @@
             var vm = this;
             vm.user = {};
 
-            vm.jumpToRegistration = function() {
-                $state.go("register")
-            }
+            // vm.jumpToRegistration = function() {
+            //     $state.go("register")
+            // }
 
             vm.loginUser = function() {
-                var currentUser = firebaseService.getCurrentUser();
-                var emailVerified = currentUser != null ? user.emailVerified : false;
-                if(emailVerified) {
-                    firebaseService.signIn(vm.user.email, vm.user.password)
-                    .then(firebaseServiceSuccess)
-                    .catch(firebaseServiceFail);
-                } else {
-                    toaster.pop("error", "Error", "Please complete your profile");
-                }
                
+                    firebaseService.signIn(vm.user.email, vm.user.password)
+                        .then(firebaseServiceSuccess)
+                        .catch(firebaseServiceFail);
             }
         
             function firebaseServiceSuccess() {
-                toaster.pop("info", "LoggedIn!!", "Login Successfull Welcome!!");
-                $timeout(function() {
-                    $state.go("shoppingCart.dashboard");
-                }, 300);
+                var currentUser = firebaseService.getCurrentUser();
+                var emailVerified = currentUser != null ? currentUser.emailVerified : false;
+                if(emailVerified) {
+                    toaster.pop("info", "LoggedIn!!", "Login Successfull Welcome!!");
+                    $timeout(function() {
+                        $state.go("shoppingCart.dashboard");
+                    }, 1000);
+                } else {
+                    toaster.pop("error", "Error", "Please complete your profile");
+                }
             }
 
             function firebaseServiceFail(error) {
@@ -41,7 +41,7 @@
                 if (errorCode == "auth/wrong-password") {
                     alert ("Password id wrong");
                 } else {
-                    toaster.pop("error", "Error", "Please complete your profile");
+                    toaster.pop("error", "Error", "Please check your mail");
                 }
             }
         } 
