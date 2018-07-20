@@ -34,6 +34,7 @@
                     }
                 }
             })
+<<<<<<< HEAD:Admin/app/app.routes.js
             .state("adminCart.products", {
                 cache : true,
                 url : "/products",
@@ -43,6 +44,28 @@
                         controller : "productController as $pc"
                     }
                 }   
+=======
+            .state('emailVerify', {
+                cache : true,
+                url: '/verify-email?mode&oobCode',
+                templateUrl: 'app/components/auth/verify-email.html',
+                controller: 'emailVerifyController as $emvr',
+            })
+            .state("profile", {
+                cache : true,
+                url : "/profile/:uid",
+                templateUrl : "app/components/profile/profile.html",
+                controller :"profileController as $pf",
+                function($stateParams){
+                    $stateParams.email;  
+                }
+            })
+            .state("register", {
+                cache : true,
+                url : "/register",
+                templateUrl : "app/components/register/register.html",
+                controller : "registrationController as $rg"
+>>>>>>> b6582a27741aff21b76fc3ef94689bb91fe86a42:app/app.route.js
             })
             .state('loading', {
                 url: '/loading',
@@ -61,11 +84,19 @@
     runBlock.$inject = ["$rootScope", "$transitions", "$state"];
 
     function runBlock($rootScope, $transitions, $state) {
+<<<<<<< HEAD:Admin/app/app.routes.js
 
         $transitions.onSuccess({ to : true}, ($transition) => {
 
             if($transition.$from() == $transition.$to()) {
                 $state.go("loading");
+=======
+        
+        $transitions.onSuccess({to: true }, ($transition) => {
+           
+            if($transition.$from() == $transition.$to()) {
+                $state.go('loading');
+>>>>>>> b6582a27741aff21b76fc3ef94689bb91fe86a42:app/app.route.js
             }
 
             firebase.auth().onAuthStateChanged(function(user) {
