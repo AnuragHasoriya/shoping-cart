@@ -1,7 +1,7 @@
 
     <header class="main-header">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="javascript:void(0)" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>LT</span>
             <!-- logo for regular state and mobile devices -->
@@ -10,7 +10,7 @@
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <a href="javascript:void(0)" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
 
@@ -290,6 +290,21 @@
               <!-- sidebar menu: : style can be found in sidebar.less -->
               <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview" ng-class="{'menu-open': $hd.tabs == 'Products'}" ng-click="$hd.openTab('Products')">
+                    <a href="javascript:void(0)">
+                      <i class="fa fa-th"></i>
+                      <span>Category</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                      </span>
+                    </a>
+                    <ul class="treeview-menu">
+                      <li><a ui-sref="adminCart.products"><i class="fa fa-circle-o"></i>Category</a></li>
+                    </ul>
+                    <ul class="treeview-menu">
+                        <li><a ui-sref="adminCart.products"><i class="fa fa-circle-o"></i>sub-Category</a></li>
+                      </ul>
+                  </li>
                 <li class="treeview" ng-class="{'menu-open': $hd.tabs == 'Products'}" ng-click="$hd.openTab('Products')">
                   <a href="javascript:void(0)">
                     <i class="fa fa-th"></i>

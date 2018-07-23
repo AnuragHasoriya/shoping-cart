@@ -6,7 +6,8 @@
     function firebaseService() {
         return {
             signIn : signIn,
-            logOut : logOut
+            logOut : logOut,
+            getCurrentUser : getCurrentUser
         }
 
         function signIn(email, password) {
@@ -15,6 +16,10 @@
         
         function logOut() {
             return firebase.auth().signOut();
+        }
+
+        function getCurrentUser(){
+            return firebase.auth().currentUser;
         }
     }
 }) ();

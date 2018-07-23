@@ -29,8 +29,8 @@
                 views : {
                     "content" : {
                         // templateUrl : "app/components/dashboard/dashboard.html",
-                        templateUrl : "app/components/products/product.html",
-                        controller : "productController as $pc"
+                        templateUrl : "app/components/category/category.html",
+                        controller : "categoryController as $cc"
                     }
                 }
             })
@@ -43,7 +43,17 @@
                         controller : "productController as $pc"
                     }
                 }
-            })   
+            }) 
+            .state("adminCart.category", {
+                cache : true,
+                url : "dashboard/category",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/category/category.html",
+                        controller : "categoryController as $cc"
+                    }
+                }
+            })  
             .state('emailVerify', {
                 cache : true,
                 url: '/verify-email?mode&oobCode',

@@ -1,0 +1,45 @@
+<div class="content-wrapper" style="min-height: 916px;">
+    <div class="col-md-6">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+            <h3 class="box-title">Category</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">List of category</h3>
+<!-- 
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>Check</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr ng-repeat= "detail in $cc.details">
+                                <td><input type="checkbox"></td>
+                                <td>detail.val().name</td>
+                                <td>detail.val().description</td>
+                                <td><button class = "fa fa-trash" ng-click="delete()"></button>&nbsp&nbsp<button class = "fa fa-edit" ng-click="edit()"></button></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+        </div>
+    </div>
+</div>
