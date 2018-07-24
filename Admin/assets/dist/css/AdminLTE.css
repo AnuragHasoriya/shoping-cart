@@ -4931,6 +4931,11 @@ table.text-center th {
 .chart canvas {
   width: 100% !important;
 }
+/* data table */
+.dt {
+  width: 75%;
+  margin: 50px auto;
+}
 /*
  * Misc: print
  * -----------

@@ -36,7 +36,7 @@
             })
             .state("adminCart.products", {
                 cache : true,
-                url : "/products",
+                url : "dashboard/products",
                 views : {
                     "content" : {
                         templateUrl : "app/components/products/product.html",

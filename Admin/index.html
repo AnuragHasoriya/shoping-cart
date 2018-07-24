@@ -32,7 +32,9 @@
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <!-- iCheck -->
-        <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css"> 
+        <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css">
+        <!-- data table  -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,7 +62,16 @@
         <script src = "assets/lib/firebase.js"></script>
         <script src = "assets/lib/toaster.min.js"></script>
         <script src = "assets/lib/angularfire.min.js"></script>
-        
+        <script src = "assets/lib/lodash.min.js"></script>
+
+        <!-- jQuery 3 -->
+        <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
+    
+        <!-- angular data table -->
+        <script src = "bower_components/angular-data-grid/dist/pagination.min.js"></script>
+        <script src = "bower_components/angular-data-grid/dist/dataGrid.min.js"></script>
+
+
         <!-- firebase -->
         <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
         <script>
@@ -74,7 +85,6 @@
             };
             firebase.initializeApp(config);
         </script>
-        
 
         <!-- loading custom angular -->
         <script src = "app/app.js"></script>
@@ -86,12 +96,12 @@
         <script src = "app/components/category/category.controller.js"></script>
         <script src = "app/shared/loading/loading.js"></script>
 
+
         <!-- angular custom service -->
         <script src = "app/services/firebase.service.js"></script>
 
         <!-- Admin Template -->
-        <!-- jQuery 3 -->
-        <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
+    
         <!-- jQuery UI 1.11.4 -->
         <script src="assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

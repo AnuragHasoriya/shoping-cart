@@ -1,29 +1,17 @@
-<div class="content-wrapper" style="min-height: 916px;">
+<div class="content-wrapper" ng-init="$cc.init()" style="min-height: 916px;">
     <div class="col-md-6">
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-            <h3 class="box-title">Category</h3>
+                <h3 class="box-title">Category</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">List of category</h3>
-<!-- 
-                        <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-                    <!-- /.box-header -->
+                <div class="box-header">
+                    <h3 class="box-title">List of category</h3>
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
+                        <!-- <table class="table table-hover">
                             <tr>
                                 <th>Check</th>
                                 <th>Name</th>
@@ -36,10 +24,54 @@
                                 <td>detail.val().description</td>
                                 <td><button class = "fa fa-trash" ng-click="delete()"></button>&nbsp&nbsp<button class = "fa fa-edit" ng-click="edit()"></button></span></td>
                             </tr>
-                        </table>
+                        </table> -->
+                        <div grid-data grid-options="$cc.gridOptions" grid-actions="gridActions">
+                            <!-- sample table layout goes below, but remember that you can you any mark-up here. -->
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th sortable="code" class="sortable">
+                                       Check
+                                    </th>
+                                    <th sortable="name" class="sortable">
+                                        Name
+                                    </th>
+                                    <th sortable="description" class="sortable">
+                                        Description
+                                    </th>
+                                    <th sortable='total.value' class="sortable">
+                                        Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>          
+                                    <tr grid-item>
+                                        <td><input type="checkbox"></td>
+                                        <td>
+                                            <span ng-if="!item.isNew" ng-bind="item.name"></span>
+                                            <input type="text" ng-if="item.isNew" ng-model="$cc.category.name">
+                                        </td>
+                                        <td>
+                                            <span ng-if="!item.isNew" ng-bind="item.description"></span>
+                                            <input ng-if="item.isNew" ng-model="$cc.category.description">
+                                        </td>
+                                        <td><i class = "fa fa-trash" ng-click="delete()"></i><i class = "fa fa-edit" ng-click="edit()"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>  
                     </div>
-                    <!-- /.box-body -->
+                    <hr>
+                    <br>
+                    <button ng-click="$cc.addRow()" class="btn btn-primary btn-flat">Add Category</button>
+                    <button ng-click="$cc.saveRow()" class="btn btn-success btn-flat">Save</button>
+                <!-- /.box-body -->
                 </div>
+            </div>
         </div>
     </div>
+
 </div>
+
+
+
