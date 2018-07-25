@@ -28,15 +28,14 @@
                 url : "/dashboard",
                 views : {
                     "content" : {
-                        // templateUrl : "app/components/dashboard/dashboard.html",
-                        templateUrl : "app/components/category/category.html",
+                        templateUrl : "app/components/dashboard/dashboard.html",
                         controller : "categoryController as $cc"
                     }
                 }
             })
             .state("adminCart.products", {
                 cache : true,
-                url : "dashboard/products",
+                url : "/products",
                 views : {
                     "content" : {
                         templateUrl : "app/components/products/product.html",
@@ -46,7 +45,7 @@
             }) 
             .state("adminCart.category", {
                 cache : true,
-                url : "dashboard/category",
+                url : "/category",
                 views : {
                     "content" : {
                         templateUrl : "app/components/category/category.html",
