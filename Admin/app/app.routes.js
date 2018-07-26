@@ -108,15 +108,8 @@
                         // $state.go('loading');
                         $state.go('login');
                     }
-                    // else {
-                    //     $state.go("loading");
-                    // }
-                } else  {
-                        if($transition.$to().name === "register") {
-                            $state.go("register");
-                        } else {
-                        $state.go("login");
-                        }
+                } else  {        
+                            $state.go("login");
                 }
             });
         }
