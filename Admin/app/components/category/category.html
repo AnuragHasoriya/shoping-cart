@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>          
                                     <tr grid-item>
-                                        <td><span><input type="checkbox" ng-if="!item.isNew" ng-model="item.checked" ng-click="$cc.updateSelection(item)"></span>
+                                        <td><span><input type="checkbox" ng-if="!item.isNew" ng-click="$cc.updateSelection(item)"></span>
                                         </td>
                                         <td>
                                             <span ng-if="!item.isNew" ng-if="$cc.editingData[item]" ng-bind="item.name"></span>

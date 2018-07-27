@@ -12,6 +12,7 @@
             vm.category = {};
             vm.editingData = {};
             var currentuser = firebaseService.getCurrentUser();
+            var categoryTableName = null;
            
             vm.init = init;
             vm.updateSelection = updateSelection;
@@ -38,11 +39,11 @@
                 vm.categoryTableData = {
                     data: [], 
                 };
-
+                categoryTableName = "category"
                 vm.subCategoryTableData = {
                     data: [], 
-                    // urlSync: true
                 };
+                subCategoryTableName = "subCategory"
                 getCategories();
                 vm.addButton = true;
             }
@@ -52,27 +53,32 @@
                 _.forEach(vm.categoryTableData.data, function(data) {
                     data.checked =false;
                 })
-                object.checked =true;
-                setSubCategory();
+                object.checked = true;
+                setSubCategory();       
             }
 
+            // function getCategories() {
+            //     firebaseService.getData("category", function(res){
+            //         successGetData(res)
+            //     })
+            // }
             function getCategories() {
-                var categoryList = firebase.database().ref().child("category");
-                categoryList.on('value', snapshot => {
-                    timeout(function () {
-                        if(snapshot.exists()) {
-                            vm.categoryTableData.data =_.map(snapshot.val(), function(obj, key){
-                                obj.key = key
-                                return obj 
-                            })
+                vm.categoryTableData.data =[];
+                vm.subCategoryTableData.data =[];
+                var promise = firebaseService.getData(categoryTableName);
+                promise.then(successGetData, faliureGetData)
+            }
 
-                        } else {
-                            toaster.pop("error", "Error", "No category exists");
-                        }
-                    },10);
-                });
+            function successGetData(data) {
+                timeout(function() {
+                    vm.categoryTableData.data = data;
+                },10);
             }
   
+            function faliureGetData(message){
+                toaster.pop("error", "Error", message);
+            }
+
             function addCategory() {
                 vm.category = {};
                 var obj = { 
@@ -92,21 +98,26 @@
                     }
                 }
                 if(dataExist) {
-                    toaster.pop("error", "Error", "category alreadyexists");
+                    toaster.pop("error", "Error", "Category alreadyexists");
                 } else {
-                    firebase.database().ref().child("category").push({  
+                    firebase.database().ref().child(categoryTableName).push({  
                         name : vm.category.name,
                         description : vm.category.description,
                         checked : false
                     });
                     toaster.pop("info", "Saved!!", "Category Added!!");
                     vm.addButton = true;
+                    getCategories();
                 }
+
             }
 
             function deleteRow(item) {
-                firebase.database().ref().child("category").child(item.key).remove();
-                toaster.pop("error", "Delete", "category Deleted");
+                firebaseService.deleteData(categoryTableName, item, function(message){
+                    getCategories()
+                    toaster.pop("error", "Delete", message);
+                });
+                // getCategories();
             }
 
             function editRow(item) {
@@ -114,13 +125,19 @@
                 vm.category.isNew = true;
             };
         
+            // function updateRow(item) {
+            //     firebase.database().ref().child("category").child(item.key).update({
+            //         name : vm.category.name,
+            //         description : vm.category.description
+            //     });
+            //     toaster.pop("info", "Updated!!", "Category Updated!!");
+            //     vm.category.isNew = false;
+            // }
             function updateRow(item) {
-                firebase.database().ref().child("category").child(item.key).update({
-                    name : vm.category.name,
-                    description : vm.category.description
-                });
-                toaster.pop("info", "Updated!!", "Category Updated!!");
-                vm.category = {};
+                firebaseService.updateData(categoryTableName, item, function(message){;
+                toaster.pop("info", "Updated!!", message);
+                vm.category.isNew = false;
+                })
             }
             
             function cancelNewRow(index) {
@@ -147,11 +164,16 @@
                 vm.addSubButton = true;
             }
 
+            function removeSubCategory() {
+                vm.categoryName = "";
+                vm.subCategoryTableData.data =[];
+            }
+
             function getSubCategories() {
                 var categoryKey = checkedItemData.key;
                 vm.subCategoryTableData.data =[];
-                //var subCategoryList = firebase.database().ref().child("subCategory").child('-LILmcuRxXFy9zNBOX1p');
                 var subCategoryList = firebase.database().ref().child("subCategory").orderByChild("categoryKey").equalTo(categoryKey);
+                // var subCategoryList = firebase.database().ref().child(categoryTableName).child(categoryKey).child(subCategoryTableName);
                 subCategoryList.on('value', snapshot => {
                     if(snapshot.exists()) {
                         timeout(function() {
@@ -177,7 +199,7 @@
                 var categoryKey = checkedItemData.key;
                 var dataExist = false;
                 for(var i = 0; i < vm.subCategoryTableData.data.length; i++) {
-                    if(vm.subCategoryTableData.data[i].name === vm.subCategory.name && vm.subCategoryTableData.data[i].key!=null){
+                    if(vm.subCategoryTableData.data[i].name === vm.subCategory.name && vm.subCategoryTableData.data[i].key != null){
                         dataExist = true;
                         break;
                     }
@@ -186,7 +208,8 @@
                     toaster.pop("error", "Error", "Subcategory alreadyexists");
                 } else {
                     var categoryKey = checkedItemData.key;
-                    firebase.database().ref().child("subCategory").push({  
+                    // firebase.database().ref().child(categoryTableName).child(checkedItemData.key).child(subCategoryTableName).push({  
+                        firebase.database().ref().child(subCategoryTableName).push({
                         name : vm.subCategory.name,
                         description : vm.subCategory.description,
                         categoryKey : categoryKey
@@ -202,6 +225,14 @@
                 toaster.pop("error", "Delete", "category Deleted");
             }
 
+            // function subDeleteRow(item) {
+            //     firebaseService.deleteData(subCategoryTableName, item, function(message){
+            //         successGetData(message)
+            //         toaster.pop("error", "Delete", message);
+            //     });
+            //     getCategories();
+            // }
+
             function subEditRow(item) {
                 vm.subCategory = item;   
                 vm.subCategory.subNew = true;
@@ -213,7 +244,7 @@
                     description : vm.subCategory.description
                 });
                 toaster.pop("info", "Updated!!", "Category Updated!!");
-                vm.category = {};
+                vm.subCategory = {};
             }
 
             function subCancelUpdate(item) {
