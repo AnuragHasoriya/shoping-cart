@@ -1,0 +1,17 @@
+fa-asterisk {
+align-items: flex-end;
+}
+
+.sub-label {
+    color: #6f6f6f;
+    font-size: 0.906em;
+}
+
+#minIcon{
+    color: #00c0ef;
+    size: 15px;
+}
+
+tags-input{
+    height: 30px;
+}

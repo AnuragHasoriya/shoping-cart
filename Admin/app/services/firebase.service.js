@@ -11,7 +11,8 @@
             getCurrentUser : getCurrentUser,
             getData : getData,
             deleteData : deleteData,
-            updateData : updateData
+            updateData : updateData,
+            getSubCategoryData : getSubCategoryData
         }
 
         function signIn(email, password) {
@@ -45,6 +46,23 @@
                         reject("no rows present");
                     }
                 })
+            })
+        }
+
+        function getSubCategoryData(categoryKey) {
+            return $q(function(resolve, reject) {
+                var subCategoryList = firebase.database().ref().child("subCategory").orderByChild("categoryKey").equalTo(categoryKey);
+                subCategoryList.on('value', snapshot => {
+                    if(snapshot.exists()) {
+                        var data = _.map(snapshot.val(), function(obj, key){
+                            obj.key = key
+                            return obj 
+                        })
+                        resolve(data)
+                    } else {
+                        reject("something went wrong");
+                    }
+                });
             })
         }
 

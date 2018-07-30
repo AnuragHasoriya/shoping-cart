@@ -55,13 +55,7 @@
                 })
                 object.checked = true;
                 setSubCategory();       
-            }
-
-            // function getCategories() {
-            //     firebaseService.getData("category", function(res){
-            //         successGetData(res)
-            //     })
-            // }
+            }   
             function getCategories() {
                 vm.categoryTableData.data =[];
                 vm.subCategoryTableData.data =[];
@@ -92,7 +86,7 @@
             function saveCategory() {
                 var dataExist = false;
                 for(var i = 0; i < vm.categoryTableData.data.length; i++) {
-                    if(vm.categoryTableData.data[i].name === vm.category.name && vm.categoryTableData.data[i].key != null){
+                    if(vm.categoryTableData.data[i].name === vm.category.name && vm.categoryTableData.data[i].key != null) {
                         dataExist = true;
                         break;
                     }
@@ -121,18 +115,10 @@
             }
 
             function editRow(item) {
-                vm.category = item;   
+                vm.category = item;
                 vm.category.isNew = true;
             };
         
-            // function updateRow(item) {
-            //     firebase.database().ref().child("category").child(item.key).update({
-            //         name : vm.category.name,
-            //         description : vm.category.description
-            //     });
-            //     toaster.pop("info", "Updated!!", "Category Updated!!");
-            //     vm.category.isNew = false;
-            // }
             function updateRow(item) {
                 firebaseService.updateData(categoryTableName, item, function(message){;
                 toaster.pop("info", "Updated!!", message);
@@ -172,18 +158,27 @@
             function getSubCategories() {
                 var categoryKey = checkedItemData.key;
                 vm.subCategoryTableData.data =[];
-                var subCategoryList = firebase.database().ref().child("subCategory").orderByChild("categoryKey").equalTo(categoryKey);
-                // var subCategoryList = firebase.database().ref().child(categoryTableName).child(categoryKey).child(subCategoryTableName);
-                subCategoryList.on('value', snapshot => {
-                    if(snapshot.exists()) {
-                        timeout(function() {
-                            vm.subCategoryTableData.data = _.map(snapshot.val(), function(obj, key){
-                                obj.key = key
-                                return obj 
-                            })
-                        },10)
-                    }
-                });
+                var promise = firebaseService.getSubCategoryData(categoryKey);
+                promise.then(successGetSubData, faliureGetSubData)
+                // var subCategoryList = s
+                // firebase.database().ref().child("subCategory").orderByChild("categoryKey").equalTo(categoryKey);
+                // subCategoryList.on('value', snapshot => {
+                //     if(snapshot.exists()) {
+                //         timeout(function() {
+                //             vm.subCategoryTableData.data = _.map(snapshot.val(), function(obj, key){
+                //                 obj.key = key
+                //                 return obj 
+                //             })
+                //         },10)
+                //     }
+                // });
+            }
+
+            function successGetSubData(data) {
+                vm.subCategoryTableData.data = data;
+            }
+            function faliureGetSubData(message) {
+                toaster.pop("error", "error!!", message);
             }
 
             function addSubCategory() {
@@ -216,6 +211,7 @@
                     });
                     toaster.pop("info", "Saved!!", "subCategory Added!!");
                     vm.addSubButton = true;
+                    getSubCategories();
                 }
 
             }
@@ -223,15 +219,8 @@
             function subDeleteRow(item) {
                 firebase.database().ref().child("subCategory").child(item.key).remove();
                 toaster.pop("error", "Delete", "category Deleted");
+                getSubCategories();
             }
-
-            // function subDeleteRow(item) {
-            //     firebaseService.deleteData(subCategoryTableName, item, function(message){
-            //         successGetData(message)
-            //         toaster.pop("error", "Delete", message);
-            //     });
-            //     getCategories();
-            // }
 
             function subEditRow(item) {
                 vm.subCategory = item;   

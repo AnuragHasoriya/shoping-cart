@@ -1,6 +1,6 @@
 (function() {
     var app = angular
-        .module("adminCart", ["ui.router", "ngAnimate", "firebase", "toaster", "dataGrid", "pagination"]);
+        .module("adminCart", ["ui.router", "ngAnimate", "firebase", "toaster", "dataGrid", "pagination", "ngTagsInput"]);
 
     app.config(configMain)
         .run(runBlock);

@@ -1,4 +1,4 @@
-<div class="content-wrapper" style="min-height: 916px;">
+<div class="content-wrapper" style="min-height: 916px;" ng-init="$pc.init()">
   <div class="col-md-6">
     <!-- Horizontal Form -->
     <div class="box box-info">
@@ -7,38 +7,104 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form class="form-horizontal">
+      <form class="form-horizontal" name= "product">
         <div class="box-body">
+
           <div class="form-group">
-            <label for="productName-input" class="col-sm-2 control-label">Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model= "$pc.product.name" id="productName-input" placeholder="Product name">
+            <label for="productName-input" class="col-sm-3 control-label">Category</label>
+            <div class="col-sm-9">
+              <select ng-model="$pc.product.category" class="form-control" name="name" ng-change="$pc.getSubCategory(category.key)" ng-options="category.key as category.name for category in $pc.categories"> </select>      
             </div>
           </div>
 
           <div class="form-group">
-            <label for="price-input" class="col-sm-2 control-label">Price</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model= "$pc.product.price" id="price-input" placeholder="Product price">
+              <label for="productName-input" class="col-sm-3 control-label">Sub-Category</label>
+              <div class="col-sm-9">
+                <select ng-model="$pc.product.subCategory" class="form-control" ng-options="subCategory.key as subCategory.name for subCategory in $pc.subCategories"> </select>      
+              </div>
+            </div>
+
+          <div class="form-group">
+            <span ng-class = "{'fa fa-asterisk': product.name.$error.required}"></span>
+            <label for="product-name" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input type="text" name="name" class="form-control" ng-model= "$pc.product.name" id="product-name" placeholder="Product name" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="product-description" class="col-sm-2 control-label">Description</label>
-
-            <div class="col-sm-10">
-              <textarea class="form-control" rows="3" ng-model= "$pc.product.description" id="product-description" placeholder=" Description"></textarea>
+            <span ng-class = "{'fa fa-asterisk': product.description.$error.required}"></span>
+            <label for="product-price" class="col-sm-3 control-label">Price</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="description" ng-model= "$pc.product.price" id="product-price" placeholder="Product price" required>
             </div>
           </div>
 
-          <div class = "form-group">
-            <label for="photo-input" class="col-sm-2 control-label">Photo</label>
-            <div class="col-sm-10">
-              <input type="file" class= "form-control" ng-model= "$pc.product.photo" id="photo-input" name="pic" accept="image/*">
+          <div class="form-group">
+            <span ng-class = "{'fa fa-asterisk': product.discount.$error.pattern}"></span>
+            <label for="product-discount" class="col-sm-3 control-label">Discount</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="discount" ng-pattern="/^\d+$/" ng-model= "$pc.product.discount" id="product-discount" placeholder="Discount" required>
             </div>
+          </div>
+
+          <div class="form-group">
+            <span ng-class = "{'fa fa-asterisk': product.tax.$error.pattern || product.tax.$error.required }"></span>
+            <label for="product-tax" class="col-sm-3 control-label">Tax(in %)</label>
+            <div class="col-sm-9">
+              <input class="form-control" rows="3" name="tax"  ng-pattern="/^\d+$/" ng-model= "$pc.product.tax" id="product-tax" placeholder="tax" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="product-varient" class="col-sm-3 control-label">Varients</label>
+            
+            <div class="col-sm-3">
+              
+            </div>
+            
+            <div class="col-sm-3">
+              <tags-input  ng-model="$pc.varient.name"></tags-input>
+              <span class="sub-label">
+                varient value
+              </span>
+            </div>
+           
+            <div class="col-sm-3">
+                <i id="minIcon" ng-if="!item.isNew" ng-if="$cc.editingData[item]" class = "fa fa-plus"  ng-click="$pc.addVarient()"></i>
+                <!-- <button  class="btn-primary btn-flat" ng-click="$pc.addVarient()">Add New</button> -->
+            </div>
+
           </div>
           
+          <div class="form-group">
+            <label for="product-description" class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-9">
+              <textarea  class="form-control" rows="3" ng-model= "$pc.product.description" id="product-description" placeholder=" Description"></textarea >
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label for="product-image" class="col-sm-3 control-label">Image Url</label>
+            <div class="col-sm-9">
+              <input class="form-control" rows="3" ng-model= "$pc.product.image" id="product-image" placeholder="Image Url"></input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="product-brand" class="col-sm-3 control-label">Brand Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" rows="3" ng-model= "$pc.product.brand" id="product-brand" placeholder="brand name"></input>
+            </div>
+          </div>
+         
+          <div class="form-group">
+            <label for="product-deliveryMethod" class="col-sm-3 control-label">Delivery Method</label>
+            <div class="col-sm-9">
+                <select id="product-deliveryMethod" class="form-control" ng-model="$pc.product.deliveryMethod" ng-options="delivery for delivery in $pc.deliveryOptions"> </select>
+            </div>
+          </div>  
+        
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
