@@ -12,7 +12,9 @@
             getData : getData,
             deleteData : deleteData,
             updateData : updateData,
-            getSubCategoryData : getSubCategoryData
+            getSubCategoryData : getSubCategoryData,
+            getImageUrl : getImageUrl
+
         }
 
         function signIn(email, password) {
@@ -26,12 +28,6 @@
         function getCurrentUser(){
             return firebase.auth().currentUser;
         }
-
-        // function getData(tableName, callback) {
-        //     return firebase.database().ref().child(tableName).on('value', function(snapshot) {
-        //         callback(snapshot);
-        //     })
-        // }
 
         function getData(tableName) {
             return $q(function(resolve, reject){ 
@@ -87,7 +83,10 @@
                 description :rowKey.description  
             });
             return callback("Row updated");
+        }
 
+        function getImageUrl(snapRef) {
+            return snapRef.snapshot.ref.getDownloadURL();
         }
         
 

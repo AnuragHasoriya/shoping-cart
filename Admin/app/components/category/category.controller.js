@@ -49,12 +49,17 @@
             }
 
             function updateSelection(object) {
-                checkedItemData = object;
-                _.forEach(vm.categoryTableData.data, function(data) {
-                    data.checked =false;
-                })
-                object.checked = true;
-                setSubCategory();       
+                if(!object.checked) {
+                    checkedItemData = object;
+                    _.forEach(vm.categoryTableData.data, function(data) {
+                        data.checked =false;
+                    })
+                    object.checked = true;
+                    setSubCategory();
+                } else {
+                    removeSubCategory();
+                    object.checked = false;
+                }       
             }   
             function getCategories() {
                 vm.categoryTableData.data =[];
@@ -233,7 +238,8 @@
                     description : vm.subCategory.description
                 });
                 toaster.pop("info", "Updated!!", "Category Updated!!");
-                vm.subCategory = {};
+                // vm.subCategory = {};
+                getSubCategories();
             }
 
             function subCancelUpdate(item) {

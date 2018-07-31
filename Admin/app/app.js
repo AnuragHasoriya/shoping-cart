@@ -1,6 +1,14 @@
 (function() {
     var app = angular
-        .module("adminCart", ["ui.router", "ngAnimate", "firebase", "toaster", "dataGrid", "pagination", "ngTagsInput"]);
+        .module("adminCart", 
+        [ "ui.router", 
+        "ngAnimate", 
+        "firebase", 
+        "toaster", 
+        "dataGrid", 
+        "pagination", 
+        "ngTagsInput", 
+        "angularjsFileModel"]);
 
     app.config(configMain)
         .run(runBlock);

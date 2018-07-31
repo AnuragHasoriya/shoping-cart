@@ -12,6 +12,17 @@ align-items: flex-end;
     size: 15px;
 }
 
+#minIconMinus{
+    color: red;
+    size: 15px;
+    cursor : pointer;
+}
+
 tags-input{
     height: 30px;
+    position: relative;
+}
+
+#uploader{
+    
 }
