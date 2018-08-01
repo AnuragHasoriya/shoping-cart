@@ -3,9 +3,9 @@
         .module("adminCart")
         .controller("productController", productController);
 
-        productController.$inject = ["$state", "firebaseService", "$timeout", "toaster"];
+        productController.$inject = ["$scope", "$state", "firebaseService", "$timeout", "toaster", "uploadManager", "$rootScope"];
 
-        function productController($state, firebaseService, timeout, toaster) {
+        function productController($scope, $state, firebaseService, timeout, toaster, uploadManager, $rootScope) {
 
             var vm = this;
             vm.product = {};
@@ -16,16 +16,18 @@
             var categoryKey = null;
             var subCategoryKey = null;
             vm.removeVarient = removeVarient;
-            vm.image = null;
-            vm.uploadFile = uploadFile;
+            vm.image = [];
+            vm.uploadFiles = uploadFiles;
             vm.addProduct = addProduct;
+            vm.files= [];
+            vm.percentage = 0; 
 
             vm.init= function(){
                 getCategories();
                 vm.deliveryOptions = ["Pick-UP", "Delivery", "Free"];
                 vm.varients = [{ 
                     "name": '',
-                    "value": [ ]
+                    "value": []
                 }];
             }
 
@@ -73,23 +75,26 @@
                 vm.varients.splice(index,1);
             }
 
-            function uploadFile() {
+            function uploadFiles(files) {
                 vm.uploader = null;
-                file = vm.image;
+                 storefiles = files;
                 vm.product.imageUrl = [];
-                for(i=0 ; i< file.length; i++) {
-                    var storageRef = firebase.storage().ref();
-                    var fireRef = storageRef.child("photos").child(file[i].name).put(file[i]);
-                    fireRef.on("state_changed", (snapshot)  => {
-                            vm.uploader = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        }, 
-                        function() {
-                            toaster.pop("error", "Error","went wrong");
-                        },
-                        function () {
-                            getUrl(fireRef);
-                        }
-                    );
+                if(files && files.length) {
+                    for(i=0 ; i< files.length; i++) {
+                        var storageRef = firebase.storage().ref();
+                        var fireRef = storageRef.child("photos").child(storefiles[i].name).put(storefiles[i]);
+                        getUrl(fireRef);
+                        fireRef.on("state_changed", (snapshot)  => {
+                                vm.uploader = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            }, 
+                            function(error) {
+                                toaster.pop("error", "Error","went wrong");
+                            },
+                            function() {
+                                // getUrl(fireRef);
+                            }
+                        );
+                    }
                 }
             }
 
@@ -118,7 +123,7 @@
                 })
             }
 
-            function mapVariant(data){
+            function mapVariant(data) {
                 var array = [];
                 _.forEach(data, function(val){
                     var obj = {
@@ -130,10 +135,23 @@
                 return array;
             }
 
-            // function successUpload(progress) {
-            //     vm.uploader = progress;
-
-            // }
-
+            $scope.files = [];
+            $scope.percentage = 0;
+            $scope.upload = function () {
+                uploadManager.upload();
+                $scope.files = [];
+            };
+            $rootScope.$on('fileAdded', function (e, call) {
+                $scope.files.push(call);
+                $scope.$apply();
+            });
+            $rootScope.$on('uploadProgress', function (e, call) {
+                $scope.percentage = call;
+                $scope.$apply();
+            });
+        
+            vm.prog = {   
+                "width" : $scope.percentage + "%"
+            }
         }
 })();

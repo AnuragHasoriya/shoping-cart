@@ -8,7 +8,8 @@
         "dataGrid", 
         "pagination", 
         "ngTagsInput", 
-        "angularjsFileModel"]);
+        "angularjsFileModel",
+        "ngFileUpload"]);
 
     app.config(configMain)
         .run(runBlock);

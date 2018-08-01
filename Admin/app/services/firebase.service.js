@@ -3,8 +3,8 @@
         .module("adminCart")
             .factory("firebaseService", firebaseService)
 
-    firebaseService.$inject = ["$q"];
-    function firebaseService($q) {
+    firebaseService.$inject = ["$q", "$rootScope"];
+    function firebaseService($q, $rootScope) {
         return {
             signIn : signIn,
             logOut : logOut,
@@ -13,7 +13,7 @@
             deleteData : deleteData,
             updateData : updateData,
             getSubCategoryData : getSubCategoryData,
-            getImageUrl : getImageUrl
+            getImageUrl : getImageUrl,
 
         }
 
@@ -88,6 +88,8 @@
         function getImageUrl(snapRef) {
             return snapRef.snapshot.ref.getDownloadURL();
         }
+
+        
         
 
     }
