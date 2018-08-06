@@ -21,6 +21,14 @@
             vm.addProduct = addProduct;
             vm.files= [];
             vm.percentage = 0; 
+            vm.progress = {};
+            vm.product.tax = 0;
+            vm.deleteImage = deleteImage;
+            vm.storeFiles = [];
+            vm.product.imageUrl = [];
+            vm.product.discount = 0;
+            vm.ImageData = [];
+           vm.databaseImageUrl = [];
 
             vm.init= function(){
                 getCategories();
@@ -29,7 +37,10 @@
                     "name": '',
                     "value": []
                 }];
+                $("[data-toggle = 'popover']").popover();
             }
+            
+               
 
             function getCategories() { 
                 var promise = firebaseService.getData("category");
@@ -77,34 +88,56 @@
 
             function uploadFiles(files) {
                 vm.uploader = null;
-                 storefiles = files;
-                vm.product.imageUrl = [];
-                if(files && files.length) {
-                    for(i=0 ; i< files.length; i++) {
-                        var storageRef = firebase.storage().ref();
-                        var fireRef = storageRef.child("photos").child(storefiles[i].name).put(storefiles[i]);
-                        getUrl(fireRef);
-                        fireRef.on("state_changed", (snapshot)  => {
-                                vm.uploader = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            }, 
-                            function(error) {
-                                toaster.pop("error", "Error","went wrong");
-                            },
-                            function() {
-                                // getUrl(fireRef);
-                            }
-                        );
-                    }
+                if(files) {
+                    // vm.storeFiles.push(files);
+                    imageName = files.name
+                    var storageRef = firebase.storage().ref();
+                    var fireRef = storageRef.child("photos").child(files.name).put(files);
+                    getUrl(fireRef);
                 }
             }
 
             function getUrl(fireRef) {
-                firebaseService.getImageUrl(fireRef)
-                    .then(function(downloadURL) {
-                        vm.product.imageUrl.push(downloadURL);
-                        console.log(vm.product.imageUrl)
-                })
+                vm.uploadName = fireRef.snapshot.ref.name;
+                fireRef.on("state_changed", (snapshot)  => {
+                    var status = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    vm.uploader = parseInt(status);
+                    vm.progress = {   
+                        "width" : vm.uploader + "%"
+                    }
+                },function(error) {
+                    toaster.pop("error", "Error", "Something went wrong");
 
+                },function() { 
+                    firebaseService.getImageUrl(fireRef)
+                    .then(function(downloadURL) {
+                        timeout(function() {
+                            vm.databaseImageUrl.push(downloadURL);
+                            vm.product.imageUrl.push({
+                                name: imageName,
+                                url: downloadURL
+                            });
+                            console.log(vm.product.imageUrl)
+                        },10)
+                    })
+
+                })
+            }
+
+            function deleteImage(file, index) {
+                vm.databaseImageUrl.splice(index, 1);
+                vm.product.imageUrl.splice(index,1);
+                firebaseService.deleteImage(file)
+                    .then(successDelete, errorDelete);
+            }
+            function successDelete(){
+                toaster.pop("info", "Delete", "Delete successsfully");
+                timeout(function() { 
+                    vm.uploader = null;
+                },10)    
+            }
+            function errorDelete(){
+                toaster.pop("error", "error", "Delete not success");
             }
 
             function addProduct() {
@@ -113,14 +146,24 @@
                     subCategory : vm.product.subCategory,
                     name : vm.product.name,
                     price : vm.product.price,
-                    discount : vm.product.discount,
+                    discount : vm.product.discount.toFixed(2),
                     tax : vm.product.tax,
                     varients : mapVariant(vm.varients),
                     descrption : vm.product.description,
-                    ImageUrl : vm.product.imageUrl,
+                    ImageUrl : vm.databaseImageUrl,
                     brandName : vm.product.brand,
                     deliveryMethod : vm.product.deliveryMethod
                 })
+                vm.product = {};
+                vm.varients = [{ 
+                    "name": '',
+                    "value": []
+                }];
+                vm.storeFiles = [];
+                $scope.product.$setPristine();
+                vm.product.discount = 0;
+                vm.product.tax = 0;
+                toaster.pop("info", "saved", "new product added")
             }
 
             function mapVariant(data) {
@@ -135,23 +178,9 @@
                 return array;
             }
 
-            $scope.files = [];
-            $scope.percentage = 0;
-            $scope.upload = function () {
-                uploadManager.upload();
-                $scope.files = [];
-            };
-            $rootScope.$on('fileAdded', function (e, call) {
-                $scope.files.push(call);
-                $scope.$apply();
-            });
-            $rootScope.$on('uploadProgress', function (e, call) {
-                $scope.percentage = call;
-                $scope.$apply();
-            });
+            
+            
         
-            vm.prog = {   
-                "width" : $scope.percentage + "%"
-            }
+            
         }
 })();

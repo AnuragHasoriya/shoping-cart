@@ -14,6 +14,7 @@
             updateData : updateData,
             getSubCategoryData : getSubCategoryData,
             getImageUrl : getImageUrl,
+            deleteImage : deleteImage 
 
         }
 
@@ -87,6 +88,11 @@
 
         function getImageUrl(snapRef) {
             return snapRef.snapshot.ref.getDownloadURL();
+        }
+
+        function deleteImage(file) {
+            var deleteRef = firebase.storage().ref().child("photos").child(file.name);
+            return deleteRef.delete();
         }
 
         

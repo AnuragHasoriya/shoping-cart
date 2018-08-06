@@ -9,7 +9,8 @@
         "pagination", 
         "ngTagsInput", 
         "angularjsFileModel",
-        "ngFileUpload"]);
+        "ngFileUpload",
+        "ui.thumbnail"]);
 
     app.config(configMain)
         .run(runBlock);

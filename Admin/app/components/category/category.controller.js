@@ -47,20 +47,24 @@
                 getCategories();
                 vm.addButton = true;
             }
-
+            
             function updateSelection(object) {
-                if(!object.checked) {
-                    checkedItemData = object;
-                    _.forEach(vm.categoryTableData.data, function(data) {
-                        data.checked =false;
-                    })
-                    object.checked = true;
-                    setSubCategory();
-                } else {
-                    removeSubCategory();
-                    object.checked = false;
-                }       
-            }   
+               timeout(function(){
+                   if(object.checked == true){
+                        checkedItemData = object;
+                         _.forEach(vm.categoryTableData.data, function(data) {
+                            data.checked =false;
+                        })
+                        object.checked =true;
+                        setSubCategory();
+                   } else {
+                        removeSubCategory();
+                   }
+                
+               },10)
+                
+            }
+
             function getCategories() {
                 vm.categoryTableData.data =[];
                 vm.subCategoryTableData.data =[];
@@ -136,7 +140,7 @@
                 _.forEach(vm.categoryTableData.data, function(value){
                     value.isNew = false;
                 })
-                vm.categoryTableData.data.splice( index, 1 );
+                vm.categoryTableData.data.splice(index, 1);
                 vm.category = {};
             }
 

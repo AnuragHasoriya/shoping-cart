@@ -1,5 +1,11 @@
 fa-asterisk {
-align-items: flex-end;
+    align-items: flex-end;
+}
+
+.glyphicon {
+    color: red;
+    padding-bottom: 3px;
+    size: 1px
 }
 
 .sub-label {
@@ -19,22 +25,33 @@ align-items: flex-end;
 }
 
 tags-input{
-    height: 30px;
+    height: auto;
+    min-height: 30px;
     position: relative;
 }
 
 .drop-box {
     background: #F8F8F8;
     border: 5px dashed #DDD;
-    width: 200px;
-    height: 80px;
     text-align: center;
+    /* width: 200px;
+    height: 80px;
     padding-top: 10px;
-    margin: 10px;
+    margin: 10px; */
 }
-.dragover {
-    border: 5px dashed blue;
+/* modal-body {
+    height: 25%;
+} */
+
+#fileName{
+    font-family: Arial, Helvetica, sans-serif;
 }
-.drop-text {
-    color: #6f6f6f
+
+#progressBar{
+    height: 20px;
+}
+
+#imageList{
+    padding-top: 50px;
+    padding-left: 90px;
 }

@@ -29,7 +29,7 @@
                 views : {
                     "content" : {
                         templateUrl : "app/components/dashboard/dashboard.html",
-                        controller : "categoryController as $cc"
+                        // controller : "categoryController as $cc"
                     }
                 }
             })
@@ -109,7 +109,7 @@
                         $state.go('login');
                     }
                 } else  {        
-                            $state.go("login");
+                    $state.go("login");
                 }
             });
         }
