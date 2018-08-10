@@ -11,11 +11,18 @@ fa-asterisk {
 .sub-label {
     color: #6f6f6f;
     font-size: 0.906em;
+
 }
 
-#minIcon{
+#minIcon-Trash {
+    color: red;
+    size: 15px;
+    cursor: pointer;
+}
+#minIcon-Edit {
     color: #00c0ef;
     size: 15px;
+    cursor: pointer;
 }
 
 #minIconMinus{
@@ -34,10 +41,8 @@ tags-input{
     background: #F8F8F8;
     border: 5px dashed #DDD;
     text-align: center;
-    /* width: 200px;
-    height: 80px;
-    padding-top: 10px;
-    margin: 10px; */
+    width: 80px;
+    height: 50px;   
 }
 /* modal-body {
     height: 25%;
@@ -54,4 +59,8 @@ tags-input{
 #imageList{
     padding-top: 50px;
     padding-left: 90px;
+}
+.dragover {
+    border: 5px dashed #00c0ef
+    
 }

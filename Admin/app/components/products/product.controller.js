@@ -2,185 +2,92 @@
     angular
         .module("adminCart")
         .controller("productController", productController);
+ 
+        productController.$inject = ["$scope", "$state", "productService", "firebaseService", "$timeout", "toaster", "$anchorScroll", "$location"];
 
-        productController.$inject = ["$scope", "$state", "firebaseService", "$timeout", "toaster", "uploadManager", "$rootScope"];
-
-        function productController($scope, $state, firebaseService, timeout, toaster, uploadManager, $rootScope) {
-
+        function productController($scope, $state, productService, firebaseService, timeout, toaster, $anchorScroll, $location) {
             var vm = this;
-            vm.product = {};
-            vm.categories = [];
-            vm.getCategories = getCategories;
-            vm.getSubCategory = getSubCategory;
-            vm.addVarient = addVarient;
-            var categoryKey = null;
-            var subCategoryKey = null;
-            vm.removeVarient = removeVarient;
-            vm.image = [];
-            vm.uploadFiles = uploadFiles;
-            vm.addProduct = addProduct;
-            vm.files= [];
-            vm.percentage = 0; 
-            vm.progress = {};
-            vm.product.tax = 0;
-            vm.deleteImage = deleteImage;
-            vm.storeFiles = [];
-            vm.product.imageUrl = [];
-            vm.product.discount = 0;
-            vm.ImageData = [];
-           vm.databaseImageUrl = [];
 
-            vm.init= function(){
-                getCategories();
-                vm.deliveryOptions = ["Pick-UP", "Delivery", "Free"];
-                vm.varients = [{ 
-                    "name": '',
-                    "value": []
-                }];
-                $("[data-toggle = 'popover']").popover();
+            vm.init = init;
+            vm.goToAdd = goToAdd;
+            vm.editRow = editRow;
+            vm.deleteRow = deleteRow;
+
+            function init() {
+                vm.productTableData = {
+                    data: [], 
+                };
+                getProductData();
+                $location.hash();
+                $anchorScroll();
             }
-            
-               
 
-            function getCategories() { 
-                var promise = firebaseService.getData("category");
-                promise.then(successGetData, faliureGetData);
+            function goToAdd() {
+                $state.go("adminCart.add");
+            }
+
+            function getProductData() {
+                vm.productTableData.data = [];
+                var promise = firebaseService.getData("products");
+                promise.then(successGetData, faliureGetData)
             }
 
             function successGetData(data) {
-                vm.categories = data;
+                mapTableData(data);
             }
   
             function faliureGetData(message){
                 toaster.pop("error", "Error", message);
             }
 
-            function getSubCategory() {
-                categoryKey = vm.product.category;
-                var promise = firebaseService.getSubCategoryData(categoryKey);
-                promise.then(successGetSubData, faliureGetSubData)
-            }
-
-            function successGetSubData(data) {
-                vm.subCategories = data;
-            }
-
-            function faliureGetSubData(message) {
-                toaster.pop("error", "Error!!", message);
-            }
-
-            function addVarient(index) {
-                var varientLength = vm.varients.length - 1;
-                if(vm.varients[varientLength].name !== "") {
-                    var obj = {
-                        "name": '',
-                        "value": []
-                    }
-                    vm.varients.push(obj);
-                } else {
-                    toaster.pop("error", "Error!!", "current field empty");
-                }
-            }
-
-            function removeVarient(index) {
-                vm.varients.splice(index,1);
-            }
-
-            function uploadFiles(files) {
-                vm.uploader = null;
-                if(files) {
-                    // vm.storeFiles.push(files);
-                    imageName = files.name
-                    var storageRef = firebase.storage().ref();
-                    var fireRef = storageRef.child("photos").child(files.name).put(files);
-                    getUrl(fireRef);
-                }
-            }
-
-            function getUrl(fireRef) {
-                vm.uploadName = fireRef.snapshot.ref.name;
-                fireRef.on("state_changed", (snapshot)  => {
-                    var status = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    vm.uploader = parseInt(status);
-                    vm.progress = {   
-                        "width" : vm.uploader + "%"
-                    }
-                },function(error) {
-                    toaster.pop("error", "Error", "Something went wrong");
-
-                },function() { 
-                    firebaseService.getImageUrl(fireRef)
-                    .then(function(downloadURL) {
-                        timeout(function() {
-                            vm.databaseImageUrl.push(downloadURL);
-                            vm.product.imageUrl.push({
-                                name: imageName,
-                                url: downloadURL
-                            });
-                            console.log(vm.product.imageUrl)
-                        },10)
+            function mapTableData(data) {
+                _.forEach(data, function(value){
+                    var obj = value
+                    productService.getKeyName(value.category, "category", function(res){
+                        obj.categoryname = res;
+                        productService.getKeyName(value.subCategory, "subCategory", function(res){
+                            obj.subCategoryName = res;
+                            timeout(function() {
+                                vm.productTableData.data.push(obj)
+                            },10);
+                        })
                     })
-
                 })
             }
 
-            function deleteImage(file, index) {
-                vm.databaseImageUrl.splice(index, 1);
-                vm.product.imageUrl.splice(index,1);
-                firebaseService.deleteImage(file)
-                    .then(successDelete, errorDelete);
-            }
-            function successDelete(){
-                toaster.pop("info", "Delete", "Delete successsfully");
-                timeout(function() { 
-                    vm.uploader = null;
-                },10)    
-            }
-            function errorDelete(){
-                toaster.pop("error", "error", "Delete not success");
+            function editRow(item) {
+                var key = item.key
+                $state.go("adminCart.edit", {key});
             }
 
-            function addProduct() {
-                firebase.database().ref().child("products").push({
-                    category : vm.product.category,
-                    subCategory : vm.product.subCategory,
-                    name : vm.product.name,
-                    price : vm.product.price,
-                    discount : vm.product.discount.toFixed(2),
-                    tax : vm.product.tax,
-                    varients : mapVariant(vm.varients),
-                    descrption : vm.product.description,
-                    ImageUrl : vm.databaseImageUrl,
-                    brandName : vm.product.brand,
-                    deliveryMethod : vm.product.deliveryMethod
-                })
-                vm.product = {};
-                vm.varients = [{ 
-                    "name": '',
-                    "value": []
-                }];
-                vm.storeFiles = [];
-                $scope.product.$setPristine();
-                vm.product.discount = 0;
-                vm.product.tax = 0;
-                toaster.pop("info", "saved", "new product added")
-            }
+            function deleteRow(item, index) {
 
-            function mapVariant(data) {
-                var array = [];
-                _.forEach(data, function(val){
-                    var obj = {
-                        name: val.name,
-                        values: val.value 
+                productService.getKeyName(item.key, "products", function(image) {
+                    imageArr = image;
+                    var imageList = imageArr.length;
+                    for(i = 0; i< imageList; i++) {
+                        var imageName = imageArr[i].name;
+                        var nameArray = imageName.split("_"); 
+                        imageArr[i].name = nameArray[1];
+
+                        firebaseService.deleteImage(imageArr[i])
+                            .then(successDelete, errorDelete);
+
+                        function successDelete() {
+                            firebase.database().ref().child("products").child(item.key).remove();
+                            toaster.pop("info", "Delete", "Delete successsfully");    
+                            getProductData();
+                        }
+
+                        function errorDelete() {
+                            toaster.pop("error", "error", "Delete not success");
+                        }
                     }
-                    array.push(obj);
-                })
-                return array;
-            }
 
-            
-            
-        
-            
+                })
+                
+                // vm.productTableData.data.splice(index, 1);
+
+            }
         }
-})();
+})()

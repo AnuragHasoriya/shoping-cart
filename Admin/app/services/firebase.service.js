@@ -14,9 +14,10 @@
             updateData : updateData,
             getSubCategoryData : getSubCategoryData,
             getImageUrl : getImageUrl,
-            deleteImage : deleteImage 
+            deleteImage : deleteImage,
 
         }
+
 
         function signIn(email, password) {
             return firebase.auth().signInWithEmailAndPassword(email, password);

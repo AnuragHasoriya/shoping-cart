@@ -33,13 +33,33 @@
                     }
                 }
             })
-            .state("adminCart.products", {
+            .state("adminCart.product", {
                 cache : true,
                 url : "/products",
                 views : {
                     "content" : {
                         templateUrl : "app/components/products/product.html",
                         controller : "productController as $pc"
+                    }
+                }
+            })
+            .state("adminCart.add", {
+                cache : true,
+                url : "/products/add-new",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/products/add/add.html",
+                        controller : "addController as $adc"
+                    }
+                }
+            })
+            .state("adminCart.edit", {
+                cache : true,
+                url : "/products/edit/:key",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/products/edit/edit.html",
+                        controller : "editController as $edc"
                     }
                 }
             }) 

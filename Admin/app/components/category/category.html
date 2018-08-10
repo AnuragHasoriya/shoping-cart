@@ -43,8 +43,8 @@
                                             <span ng-if="!item.isNew" ng-if="$cc.editingData[item]" ng-bind="item.description"></span>
                                             <input ng-if="item.isNew" ng-model="$cc.category.description">
                                         </td>
-                                        <td><i id="minIcon" ng-if="!item.isNew" ng-if="$cc.editingData[item]" class = "fa fa-trash" ng-click="$cc.deleteRow(item)"></i>&nbsp&nbsp
-                                            <i id="minIcon" ng-if="!item.isNew" ng-if="$cc.editingData[item]" class = "fa fa-edit"  ng-click="$cc.editRow(item)"></i>
+                                        <td><i id="minIcon-Trash" ng-if="!item.isNew" ng-if="$cc.editingData[item]" class = "fa fa-trash" ng-click="$cc.deleteRow(item)"></i>&nbsp&nbsp
+                                            <i id="minIcon-Edit" ng-if="!item.isNew" ng-if="$cc.editingData[item]" class = "fa fa-edit"  ng-click="$cc.editRow(item)"></i>
                                             <button ng-if="item.isNew && $cc.addButton" class="btn btn-primary btn-flat" ng-click="$cc.updateRow(item)">Update</button>
                                             <button ng-if="item.isNew && $cc.addButton" class="btn btn-danger btn-flat" ng-click="$cc.cancelUpdate(item)">Cancel</button>
                                             <button ng-click="$cc.cancelNewRow($index)" ng-if="item.isNew && !$cc.addButton" class="btn btn-danger btn-flat">Cancel</button>
@@ -68,7 +68,7 @@
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Sub-Category</h3>
+                <h3 class="box-title">Sub-Category</h3> 
                 <toaster-container></toaster-container>
             </div>
             <!-- /.box-header -->
@@ -81,18 +81,18 @@
                         <div grid-data grid-options="$cc.subCategoryTableData" grid-actions="gridActions">
                             <!--  table layout goes below. -->
                             <table class="table">
-                                <thead>
-                                <tr>
-                                    <th sortable="name" class="sortable">
-                                        Name
-                                    </th>
-                                    <th>
-                                        Description
-                                    </th>
-                                    <th>
-                                        Action
-                                    </th>
-                                </tr>
+                                <thead> 
+                                    <tr>
+                                        <th sortable="name" class="sortable">
+                                            Name
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th> 
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>          
                                     <tr grid-item>
@@ -104,8 +104,8 @@
                                             <span ng-if="!item.subNew" ng-if="$cc.editingSubData[item]" ng-bind="item.description"></span>
                                             <input ng-if="item.subNew" ng-model="$cc.subCategory.description">
                                         </td>
-                                        <td><i id="minIcon" ng-if="!item.subNew" ng-if="$cc.editingSubData[item]" class = "fa fa-trash" ng-click="$cc.subDeleteRow(item)"></i>&nbsp&nbsp
-                                            <i id="minIcon" ng-if="!item.subNew" ng-if="$cc.editingSubData[item]" class = "fa fa-edit"  ng-click="$cc.subEditRow(item)"></i>
+                                        <td><i id="minIcon-Trash" ng-if="!item.subNew" ng-if="$cc.editingSubData[item]" class = "fa fa-trash" ng-click="$cc.subDeleteRow(item)"></i>&nbsp&nbsp
+                                            <i id="minIcon-Edit " ng-if="!item.subNew" ng-if="$cc.editingSubData[item]" class = "fa fa-edit"  ng-click="$cc.subEditRow(item)"></i>
                                             <button ng-if="item.subNew && $cc.addSubButton" class="btn btn-primary btn-flat" ng-click="$cc.subUpdateRow(item)">Update</button>
                                             <button ng-if="item.subNew && $cc.addSubButton" class="btn btn-danger btn-flat" ng-click="$cc.subCancelUpdate(item)">Cancel</button>
                                             <button ng-click="$cc.subCancelNewRow($index)" ng-if="item.subNew && !$cc.addSubButton" class="btn btn-danger btn-flat">Cancel</button>

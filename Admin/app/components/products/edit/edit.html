@@ -1,0 +1,200 @@
+<div class="content-wrapper" style="min-height: 916px;" ng-init="$edc.init()">
+    <div class="col-md-8 col-md-offset-2">
+        <!-- Horizontal Form -->  
+        <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add Product</h3>
+            <toaster-container></toaster-container>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name= "product"  novalidate>
+            <div class="box-body">
+    
+            <div class="form-group" ng-class="{ 'has-error': product.categoryName.$error.required && !product.categoryName.$pristine}" >
+                <label for="productName-input" class="col-sm-3 control-label">Category</label>
+                <div class="col-sm-9">
+                <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.categoryName.$error.required}"></span> -->
+                <select disabled ng-model="$edc.product.category" class="form-control" name="categoryName" ng-change="$edc.getSubCategory(category.key)" ng-options="category.key as category.name for category in $edc.categories" required> </select>      
+                </div>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error' : product.subCategoryName.$error.required  && !product.subCategoryName.$pristine}"> 
+                <label for="productName-input" class="col-sm-3 control-label">Sub-Category</label>
+                <div class="col-sm-9">
+                    <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.subCategoryName.$error.required}"></span> -->
+                <select  disabled ng-model="$edc.product.subCategory" name="subCategoryName" class="form-control" ng-options="subCategory.key as subCategory.name for subCategory in $edc.subCategories" required> </select>      
+                </div>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error' : product.productName.$invalid && !product.productName.$pristine}"> 
+                <label  for="product-name" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-9">
+                <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.productName.$error.required}"></span> -->
+                <input type="text" name="productName" class="form-control" ng-model= "$edc.product.name" id="product-name" placeholder="Product name" required>
+                </div>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error' : product.productPrice.$error.pattern || product.productPrice.$error.required && !product.productPrice.$pristine}" >
+                <span ng-class = "{'fa fa-asterisk': product.description.$error.required}"></span>
+                <label for="product-price" class="col-sm-3 control-label">Price</label>
+                <div class="col-sm-9">
+                    <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right': product.productPrice.$error.pattern || product.productPrice.$error.required }"></span> -->
+                <input type="number" class="form-control" ng-pattern="/^\d+(\.\d{1,2})?$/"  name="productPrice" ng-model= "$edc.product.price" id="product-price" placeholder="Product price" required>
+                <p ng-show="product.productPrice.$error.pattern" class="help-block">Wrong numbers</p>
+                </div>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error' :product.productDiscount.$error.pattern && !product.productDiscount.$pristine}">
+                <label for="product-discount" class="col-sm-3 control-label">Discount(in %)</label>
+                <div class="col-sm-9">
+                    <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right': product.productDiscount.$error && !product.productDiscount.$pristine}"></span> -->
+                <input type="number" class="form-control" ng-pattern=/^([0-9][0-9]|\d)(\.\d{1,2})?$/  name="productDiscount" ng-model= "$edc.product.discount" id="product-discount" placeholder="Discount" data-toggle="popover" data-content="follow format 00.00 or 00" data-placement="right" data-trigger="focus">
+                    <!-- data-toggle="popover" data-content="follow format dd.dd or dd" data-placement="right" data-trigger="focus"> -->
+                </div>    
+            </div>
+    
+            <div class="form-group"  ng-class="{ 'has-error' :product.tax.$error.pattern && !product.tax.$pristine}">
+                <label for="product-tax" class="col-sm-3 control-label">Tax(in %)</label>
+                <div class="col-sm-9">
+                <!-- <span ng-class = "{'glyphicon fa fa-asterisk pull-right': product.tax.$error.pattern }"></span> -->
+                <input type="number" class="form-control" name="tax"  ng-pattern="/^([0-9][0-9]|\d)(\.\d{1,2})?$/" ng-model= "$edc.product.tax" id="product-tax" placeholder="Tax" data-toggle="popover" data-content="follow format 00.00 or 00" data-placement="right" data-trigger="focus">
+                    <!-- data-toggle="popover" data-content="follow format dd.dd or dd" data-placement="right" data-trigger="focus" > -->
+                </div>
+            </div>
+            <!-- ng-pattern="/^([0-9]|[0-9]?[0-9])$/" -->
+    
+            <label for="product-varient" class="col-sm-3 control-label">Varients</label>
+            <div class="col-sm-9">
+                <div class="form-group" ng-repeat = "varient in $edc.varients">
+                <!-- <label for="product-varient" class="col-sm-3 control-label">Varients</label> -->
+                <tr >
+                    <td>
+                    <div class="col-sm-4">
+                        <span   ng-class="{ 'has-error' :product.varientName.$error.required && !product.varientName.$pristine}"></span>
+                        <input type="text" placeholder="Name" name="varientName" ng-model="varient.name" required>
+                    </div>
+                    </td>
+    
+                    <td>
+                    <div class="col-sm-6">
+                        <tags-input ng-model="varient.value" name="varientData" minLength="1" display-property="value" ></tags-input> 
+                    </div>
+                    </td>
+                    
+                    <td>
+                    <div class="col-sm-2">
+                        <i id="minIcon" ng-if="$index == 0" class = "fa fa-plus"  ng-click="$edc.addVarient($index)"></i>
+                        <i id="minIconMinus" ng-if="$index > 0" class = "fa fa-minus"  ng-click="$edc.removeVarient($index)"></i>
+                    </div>
+                    </td>   
+                </tr>
+                </div>
+            </div>
+            
+            <div class="form-group" ng-class="{ 'has-error' : product.productDescription.$error.required && !product.productDescription.$pristine}">
+                <label for="product-description" class="col-sm-3 control-label">Description</label>
+                <div class="col-sm-9">
+                <textarea  class="form-control" rows="3" name="productDescription" ng-model= "$edc.product.description" id="product-description" placeholder=" Description" required></textarea >
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label for="product-image" class="col-sm-3 control-label">Edit Image</label>
+                <div class="col-sm-9">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Edit Image</button>
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Image Uploader</h4>
+                        </div>
+                        <div class="modal-body" >                                         
+                        
+                        <div class="col-sm-8 col-md-offset-2">
+                            <div class="col-sm-6">
+                            <button type="file" class="btn btn-info" ngf-select="$edc.uploadFiles($file)" >select Image</button>
+                            </div>
+                            <div class="col-sm-6">
+                            <div ngf-drop="$edc.uploadFiles($file)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
+                                ngf-pattern="'image/*,application/pdf'">Drop Images
+                            </div>
+                            </div>
+                            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser
+                            </div>
+                        </div>
+                        <div  class="row"  class="col-sm-9">
+                            <div class="row" id="imageList" ng-repeat="image in $edc.product.image">
+                            
+                            <div  class="col-sm-4">
+                                <tr>
+                                    <td>
+                                        <ui-thumbnail src=image.url opts="{width: 50, height: 50}"></ui-thumbnail>
+                                    </td>
+                                </tr>
+                            </div>
+                            
+                            <div  class="col-sm-4">
+                                <tr >
+                                <td>
+                                    <span id="fileName" ng-bind="image.name"></span>
+                                </td>
+                                </tr> 
+                            </div>
+                            
+                            <div class="col-sm-4">
+                                <tr >
+                                <td>
+                                    <button type="button" class="btn btn-danger" ng-click="$edc.deleteImage(image, $index)">Delete</button>
+                                </td>
+                                </tr>
+                            </div>
+    
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-md-offset-2" id="progressBar" ng-hide = "$edc.uploader == null " class="progress" >
+                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="$edc.progress">
+                            {{$edc.uploader + "% Complete "}}
+                            </div>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>    
+                    </div>
+                </div>
+                </div>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error' :product.productBrand.$error.required && !product.productBrand.$pristine}">
+                <label for="product-brand" class="col-sm-3 control-label">Brand Name</label>
+                <div class="col-sm-9">
+                <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right': product.productBrand.$error.required }"></span> -->
+                <input class="form-control" name="productBrand" ng-model= "$edc.product.brandName" id="product-brand" placeholder="Brand name" required></input>
+                </div>
+            </div>
+            
+            <div class="form-group" ng-class="{ 'has-error' :product.delivery.$error.required && !product.delivery.$pristine}">
+                <label for="product-deliveryMethod" class="col-sm-3 control-label">Delivery Method</label>
+                <div class="col-sm-9">
+                    <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right': product.delivery.$error.required }"></span> -->
+                    <select disabled id="product-deliveryMethod" name="delivery" class="form-control" ng-model="$edc.product.deliveryMethod" ng-options="delivery for delivery in $edc.deliveryOptions" required> </select>
+                </div>
+            </div>  
+            
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            <!-- <button type="submit" class="btn btn-default" ng-click="$edc.cancel()">Cancel</button> -->
+            <button type="submit" class="btn btn-info pull-right" ng-disabled="product.$invalid" ng-click="$edc.updateProduct(product.$valid)" ng-submit="$edc.updateProduct(product.$valid)">Update</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+        </div>
+    </div>
+</div>
