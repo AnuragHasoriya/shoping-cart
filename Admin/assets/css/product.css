@@ -29,6 +29,11 @@ fa-asterisk {
     color: red;
     size: 15px;
     cursor : pointer;
+    margin-top: 2%
+}
+
+#minIcon{
+    margin-top: 2%; 
 }
 
 tags-input{
@@ -41,8 +46,21 @@ tags-input{
     background: #F8F8F8;
     border: 5px dashed #DDD;
     text-align: center;
-    width: 80px;
-    height: 50px;   
+    /* height: 14%; */
+    width: 160%;
+}
+
+#drag{
+    margin-top: 2.5%; 
+}
+
+#cloud {
+    font-size: 40px;
+    align-content: center
+}
+
+#upLoadButton {
+    margin-top: 10%;
 }
 /* modal-body {
     height: 25%;
@@ -53,14 +71,33 @@ tags-input{
 }
 
 #progressBar{
-    height: 20px;
+    height: 4%;
+    margin-top: 3%;     
 }
 
 #imageList{
-    padding-top: 50px;
-    padding-left: 90px;
+    padding-top: 3%;
+    padding-left: 22%;
 }
 .dragover {
     border: 5px dashed #00c0ef
     
+}
+
+#varients {
+margin-top: 2.5%
+}
+
+.thumbNails{
+    margin-top: 2px;
+}
+
+#imageDelete {
+    padding-top: 6%;
+    padding-left: 20%
+}
+
+
+.thumbnail a>img {
+    height: 100px;
 }

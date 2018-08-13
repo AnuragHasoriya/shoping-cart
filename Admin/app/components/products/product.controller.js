@@ -16,6 +16,9 @@
             function init() {
                 vm.productTableData = {
                     data: [], 
+                    pagination: {
+                        itemsPerPage: '10'
+                    }
                 };
                 getProductData();
                 $location.hash();
@@ -66,9 +69,9 @@
                     imageArr = image;
                     var imageList = imageArr.length;
                     for(i = 0; i< imageList; i++) {
-                        var imageName = imageArr[i].name;
-                        var nameArray = imageName.split("_"); 
-                        imageArr[i].name = nameArray[1];
+                        // var imageName = imageArr[i].name;
+                        // var nameArray = imageName.split("_"); 
+                        // imageArr[i].name = nameArray[1];
 
                         firebaseService.deleteImage(imageArr[i])
                             .then(successDelete, errorDelete);

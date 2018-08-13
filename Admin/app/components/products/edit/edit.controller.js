@@ -33,6 +33,7 @@
         var subCategoryKey = null;
         vm.storeFiles = [];
         vm.uploadFiles = uploadFiles;
+        vm.emptyVarient = emptyVarient;
         
         
 
@@ -82,14 +83,16 @@
         
         function successData(data) {
             vm.product = data;
+            
+            // databaseImageDetails = data.image;
             vm.varients = vm.product.varients;
             var imageList = vm.product.image.length;
-            for(i = 0; i< imageList; i++) {
-                var imageName = vm.product.image[i].name;
-                var nameArray = imageName.split("_"); 
-                vm.product.image[i].name = nameArray[1];
-            }
-            databaseImageDetails = vm.product.image;
+            // for(i = 0; i< imageList; i++) {
+            //     var imageName = vm.product.image[i].name;
+            //     var nameArray = imageName.split("_"); 
+            //     vm.product.image[i].name = nameArray[1];
+            // }
+            // databaseImageDetails = vm.product.image;
         }
 
         function failData() {
@@ -109,6 +112,14 @@
                 toaster.pop("error", "Error!!", "current field empty");
             }
         }
+        
+        function emptyVarient(index) {
+            vm.varients.splice(index,1);
+            vm.varients = [{ 
+                "name": '',
+                "value": []
+            }];
+        }
 
         function removeVarient(index) {
             vm.varients.splice(index,1);
@@ -120,9 +131,9 @@
             vm.uploader = null;
             if(files) {
                 // vm.storeFiles.push(files);
-                imageName = files.name;
+                imageName = generateGuid(files.name)
                 var storageRef = firebase.storage().ref();
-                var fireRef = storageRef.child("photos").child(files.name).put(files);
+                var fireRef = storageRef.child("photos").child(imageName).put(files);
                 getUrl(fireRef);
             }
         }
@@ -168,7 +179,8 @@
         // delete Image
         function deleteImage(file, index) {
             vm.product.image.splice(index, 1);
-            databaseImageDetails.splice(index, 1)
+            // file = databaseImageDetails
+            // databaseImageDetails.splice(index, 1)
             firebaseService.deleteImage(file)
                 .then(successDelete, errorDelete);
         }
@@ -201,10 +213,10 @@
         // update Product
         function updateProduct() {
             var imageData;
-            if(databaseImageDetails.length == 0 || databaseImageDetails.length < 0) {
+            if(vm.product.image.length == 0 || vm.product.image.length < 0) {
                 toaster.pop("warning", "Image required", "please upload an image")
             } else {
-                imageData = mapImageData(databaseImageDetails);
+                imageData = mapImageData(vm.product.image);
                 firebase.database().ref().child("products").child(key).update({
                     category : vm.product.category,
                     subCategory : vm.product.subCategory,
@@ -230,7 +242,7 @@
             _.forEach(data, function(val){
                 var obj = {
                     name: val.name,
-                    values: val.value 
+                    values: val.values
                 }
                 array.push(obj);
             })

@@ -84,6 +84,14 @@
                 }
             }
 
+            function emptyVarient(index) {
+                vm.varients.splice(index,1);
+                vm.varients = [{ 
+                    "name": '',
+                    "value": []
+                }];
+            }
+
             function removeVarient(index) {
                 vm.varients.splice(index,1);
             }
@@ -94,7 +102,8 @@
                     // vm.storeFiles.push(files);
                     imageName = files.name;
                     var storageRef = firebase.storage().ref();
-                    var fireRef = storageRef.child("photos").child(files.name).put(files);
+                    imageName = generateGuid(files.name)
+                    var fireRef = storageRef.child("photos").child(imageName).put(files);
                     getUrl(fireRef);
                 }
             }
@@ -114,19 +123,20 @@
                     firebaseService.getImageUrl(fireRef)
                     .then(function(downloadURL) {
                         timeout(function() {
+                            var name = imageName.split("_"); 
+                            nameTrimed = name[1];
                             var obj = {
-                                name: imageName,
+                                name: nameTrimed,
                                 url: downloadURL
                             }
                             vm.product.image.push(obj);
-                            imageDatabaseName = generateGuid(imageName);
                             var dataObj = {
-                                name : imageDatabaseName,
+                                name : imageName,
                                 url: downloadURL
                             }
                             databaseImageDetails.push(dataObj);
                             
-                            console.log(vm.product.image)
+                            console.log(vm.product.image)   
                         },10)
                     })
                     .catch(function(error) {

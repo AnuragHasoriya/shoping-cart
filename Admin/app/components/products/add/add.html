@@ -81,6 +81,7 @@
                   <div class="col-sm-2">
                     <i id="minIcon" ng-if="$index == 0" class = "fa fa-plus"  ng-click="$adc.addVarient($index)"></i>
                     <i id="minIconMinus" ng-if="$index > 0" class = "fa fa-minus"  ng-click="$adc.removeVarient($index)"></i>
+                    <i id="minIconMinus" ng-if="$index == 0" class = "fa fa-minus"  ng-click="$edc.emptyVarient($index)"></i>
                   </div>
                 </td>   
               </tr>
@@ -95,71 +96,65 @@
           </div>
 
           <div class="form-group">
-            <label for="product-image" class="col-sm-3 control-label">Upload Image</label>
+            <label for="product-image" class="col-sm-3 control-label">Uplaod Image</label>
             <div class="col-sm-9">
-              <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Upload</button>
+              <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Uplaod Image</button>
               <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
-              
-                  <!-- Modal content-->
+                <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                       <h4 class="modal-title">Image Uploader</h4>
                     </div>
-                    <div class="modal-body" >                                         
-                     
-                      <div class="col-sm-8 col-md-offset-2">
-                        <div class="col-sm-6">
-                          <button type="file" class="btn btn-info" ngf-select="$adc.uploadFiles($file)">select Image</button>
-                        </div>
-                        <div class="col-sm-6">
-                          <div ngf-drop="$adc.uploadFiles($file)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
-                            ngf-pattern="'image/*,application/pdf'">Drop Images
+                      <div class="modal-body" > 
+                        <div class="row">                                        
+                          <div class="col-sm-6">
+                              <div class="col-sm-12">
+                                  <div class=" col-sm-6">
+                                      <div ngf-drop="$adc.uploadFiles($file)" class=" drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
+                                          ngf-pattern="'image/*,application/pdf'">
+                                          <span id ="cloud"class=" fa fa-cloud-upload"></span>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-12">
+                                      <button id="upLoadButton" type="file" class="btn btn-info" ngf-select="$adc.uploadFiles($file)" >Browse</button>
+                                      <span id="drag">&nbsp or drag images. </span>
+                                  </div>
+                                  <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                              </div>
+                              <span  ng-hide = "$adc.uploader == null" class="progress">
+                                  <div id="progressBar" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                                      aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="$adc.progress">
+                                      {{$adc.uploader + "% Complete "}}
+                                  </div>
+                              </span>
                           </div>
-                        </div>
-                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser
+                          <div class="col-sm-6">
+                              <div class="row" class="col-sm-9">
+                                  <div class="row" id="imageList" >
+                                      <div  class="col-sm-5" ng-repeat="image in $adc.product.image">
+                                          <div class="thumbnail">
+                                              <a href="{{image.url}}" target="_blank">
+                                                  <img ng-src="{{image.url}}" alt={{image.name}} >
+                                              </a>
+                                              <i id="minIcon-Trash"  class = "fa fa-trash" ng-click="$adc.deleteImage(image, $index)"></i>
+                                          </div> 
+                                      </div>                        
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- <div class="col-sm-8 col-md-offset-2" id="progressBar" ng-hide = "$adc.uploader == null " class="progress">
+                              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                                  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="$adc.progress">
+                                  {{$adc.uploader + "% Complete "}}
+                              </div>
+                          </div> -->
                         </div>
                       </div>
-                      <div  class="row"  class="col-sm-9">
-                        <div class="row" id="imageList" ng-repeat="image in $adc.product.image">
-                          
-                          <div  class="col-sm-4">
-                            <tr>
-                              <td>
-                                <ui-thumbnail src=image.url opts="{width: 50, height: 50}"></ui-thumbnail>
-                              </td>
-                            </tr>
-                          </div>
-                          
-                          <div  class="col-sm-4">
-                            <tr >
-                              <td>
-                                <span id="fileName" ng-bind="image.name"></span>
-                              </td>
-                            </tr> 
-                          </div>
-                          
-                          <div class="col-sm-4">
-                            <tr >
-                              <td>
-                                <button type="button" class="btn btn-danger" ng-click="$adc.deleteImage(image, $index)">Delete</button>
-                              </td>
-                            </tr>
-                          </div>
-
-                        </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                       </div>
-                      <div class="col-sm-8 col-md-offset-2" id="progressBar" ng-hide = "$adc.uploader == null " class="progress" >
-                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
-                          aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="$adc.progress">
-                          {{$adc.uploader + "% Complete "}}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
                   </div>    
                 </div>
               </div>
