@@ -123,10 +123,10 @@
                     firebaseService.getImageUrl(fireRef)
                     .then(function(downloadURL) {
                         timeout(function() {
-                            var name = imageName.split("_"); 
-                            nameTrimed = name[1];
+                            // var name = imageName.split("_"); 
+                            // nameTrimed = name[1];
                             var obj = {
-                                name: nameTrimed,
+                                name: imageName,
                                 url: downloadURL
                             }
                             vm.product.image.push(obj);

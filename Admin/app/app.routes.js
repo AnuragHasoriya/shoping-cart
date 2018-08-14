@@ -59,9 +59,12 @@
                 views : {
                     "content" : {
                         templateUrl : "app/components/products/edit/edit.html",
-                        controller : "editController as $edc"
+                        controller : "editController as $edc",
                     }
-                }
+                },
+                // function($stateParams) {
+                //     $stateParams.
+                // }
             }) 
             .state("adminCart.category", {
                 cache : true,
