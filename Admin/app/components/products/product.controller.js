@@ -23,7 +23,7 @@
                 getProductData();
                 $location.hash();
                 $anchorScroll();
-            }
+            } 
 
             function goToAdd() {
                 $state.go("adminCart.add");
@@ -52,6 +52,7 @@
                             obj.subCategoryName = res;
                             timeout(function() {
                                 vm.productTableData.data.push(obj)
+                                console.log(vm.productTableData.data);
                             },10);
                         })
                     })

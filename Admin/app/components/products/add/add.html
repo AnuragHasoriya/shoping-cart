@@ -14,7 +14,6 @@
           <div class="form-group" ng-class="{ 'has-error': product.categoryName.$error.required && !product.categoryName.$pristine}" >
             <label for="productName-input" class="col-sm-3 control-label">Category</label>
             <div class="col-sm-9">
-              <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.categoryName.$error.required}"></span> -->
               <select ng-model="$adc.product.category" class="form-control" name="categoryName" ng-change="$adc.getSubCategory(category.key)" ng-options="category.key as category.name for category in $adc.categories" required> </select>      
             </div>
           </div>
@@ -22,7 +21,6 @@
           <div class="form-group" ng-class="{ 'has-error' : product.subCategoryName.$error.required  && !product.subCategoryName.$pristine}"> 
             <label for="productName-input" class="col-sm-3 control-label">Sub-Category</label>
             <div class="col-sm-9">
-                <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.subCategoryName.$error.required}"></span> -->
               <select ng-model="$adc.product.subCategory" name="subCategoryName" class="form-control" ng-options="subCategory.key as subCategory.name for subCategory in $adc.subCategories" required> </select>      
             </div>
           </div>
@@ -30,7 +28,6 @@
           <div class="form-group" ng-class="{ 'has-error' : product.productName.$invalid && !product.productName.$pristine}"> 
             <label  for="product-name" class="col-sm-3 control-label">Name</label>
             <div class="col-sm-9">
-              <!-- <span ng-class="{'glyphicon fa fa-asterisk pull-right':product.productName.$error.required}"></span> -->
               <input type="text" name="productName" class="form-control" ng-model= "$adc.product.name" id="product-name" placeholder="Product name" required>
             </div>
           </div>
@@ -73,7 +70,7 @@
 
                 <td>
                   <div class="col-sm-6">
-                      <tags-input ng-model="varient.value" name="varientData" minLength="1" display-property="value" ></tags-input> 
+                      <tags-input ng-model="varient.value" name="varientData" minLength="0" display-property="value" ></tags-input> 
                   </div>
                 </td>
                 

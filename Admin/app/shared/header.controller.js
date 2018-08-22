@@ -33,7 +33,7 @@
             // }
             // vm.userDropMenu = 'open'
 
-            vm.openTab = function(ref){
+            vm.openTab = function(ref) {    
                 vm.tabs = ref;
             }
         }

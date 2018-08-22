@@ -76,6 +76,16 @@
                     }
                 }
             })  
+            .state("adminCart.inventory", {
+                cache : true,
+                url : "/inventory",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/inventory/inventory.html",
+                        controller : "inventoryController as $inv"
+                    }
+                }
+            })  
             .state('emailVerify', {
                 cache : true,
                 url: '/verify-email?mode&oobCode',
