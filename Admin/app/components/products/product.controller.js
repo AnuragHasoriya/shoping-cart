@@ -64,7 +64,7 @@
                 $state.go("adminCart.edit", {key});
             }
 
-            function deleteRow(item, index) {
+            function deleteRow(item, index) {   
 
                 productService.getKeyName(item.key, "products", function(image) {
                     imageArr = image;

@@ -82,10 +82,30 @@
                 views : {
                     "content" : {
                         templateUrl : "app/components/inventory/inventory.html",
-                        controller : "inventoryController as $inv"
+                        controller : "inventoryController as $invc"
                     }
                 }
             })  
+            .state("adminCart.addInventory", {
+                cache : true,
+                url : "/inventory/add",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/inventory/productList/productList.html",
+                        controller : "productListController as $plc"
+                    }
+                }
+            })
+            .state("adminCart.setInventory", {
+                cache : true,
+                url : "/inventory/add/set/:table/:key",
+                views : {
+                    "content" : {
+                        templateUrl : "app/components/inventory/setInventory/setInventory.html",
+                        controller : "setInventoryController as $sic"
+                    }
+                }
+            })
             .state('emailVerify', {
                 cache : true,
                 url: '/verify-email?mode&oobCode',

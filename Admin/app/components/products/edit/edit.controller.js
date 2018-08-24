@@ -77,7 +77,8 @@
 
         // get product details
         function getProductDetails(key) {
-            var promise = productService.getProductData(key, "products");
+            tableName = "products";
+            var promise = productService.getProductData(key, tableName);
             promise.then(successData, failData);
         }
         

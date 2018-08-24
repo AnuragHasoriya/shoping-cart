@@ -33,14 +33,20 @@
         }
 
         function getProductData(key, tableName) {
-            return $q(function(resolve, reject){ 
+            return $q(function(resolve, reject) { 
                 firebase.database().ref().child(tableName).child(key).on('value', function(snapshot) {
                     if(snapshot.exists()) {
-                        // var data = _.map(snapshot.val(), function(obj, key){
-                        //     obj.key = key
-                        //     return obj 
-                        // })
-                        var data = snapshot.val();
+                        var data = null;
+                        if(tableName == "inventory") {
+                            // data = _.map(snapshot.val(), function(obj, key) {
+                            //     obj.key = key
+                            //     return obj 
+                            // });
+                            data = snapshot.val();
+                            data.key = key;
+                        } else {
+                            data = snapshot.val();
+                        } 
                         resolve(data)
                     } else {
                         reject("no rows present");

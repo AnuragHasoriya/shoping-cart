@@ -1,0 +1,115 @@
+<div id="productList" class="content-wrapper" ng-init="$sic.init()" style="min-height: 916px;">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Set Inventory</h3> 
+                <toaster-container></toaster-container>
+            </div>
+            <div class="box-header">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table">
+                        <thead> 
+                            <tr>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Sub-Category
+                                </th>
+                                <th sortable="name" class="sortable">
+                                    Name
+                                </th>
+                                <th>
+                                    Brand
+                                </th>
+                                <th>
+                                    Price
+                                </th>  
+                                <th>
+                                    Total Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>          
+                            <tr>
+                                <td>
+                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.categoryname"></span>
+                                </td>
+                                <td>
+                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.subCategoryName"></span>
+                                </td>
+                                <td>
+                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.name"></span>
+                                </td>
+                                <td>
+                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.brandName"></span>
+                                </td>
+                                <td>
+                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.price"></span>
+                                </td>
+                            
+                                <td>
+                                    <span ><input type="number" ng-model="$sic.totalCount"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="inventory" ng-if="!$sic.inventoryVarients" class="box-title btn btn-primary btn-flat" ng-click="$sic.setInventory($sic.inventoryVarients) ">Set Inventory</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-md-offset-4" ng-if="$sic.inventoryVarients">
+        <div class="box box-info">
+            <div class="box-header scrollAway" >
+                <div class="box-body table-responsive no-padding">
+                    <div grid-data grid-options="$sic.inventoryVarients" grid-actions="gridActions">
+                        <table class="table"> 
+                            <thead> 
+                                <tr>
+                                    <th>
+                                        Varients
+                                    </th>
+                                    <th>
+                                        Inventory Count 
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody grid-item>
+                                <span style= "color:red" ng-show="$sic.inputCon">you have left at least one row empty</span>   
+                                <span style= "color:red" ng-show="$sic.chechValues">Your Total count and inventory count does not match</span> 
+                                <tr>
+                                    <td>
+                                        <span ng-bind="item.varient"></span>
+                                    </td>
+                                    <td>
+                                        <form name="invFrom">
+                                            <div class="form-group" ng-class="{ 'has-error':  invFrom.inputCon.$invalid && !invFrom.inputCon.$pristine}" >                                            
+                                                <div>
+                                                    <input type="number" class="form-control" ng-if="$sic.totalCount" min="0"  name="inputCon" ng-model="item.value" required>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <grid-pagination max-size="10"
+                                boundary-links="true"
+                                class="pagination-sm"
+                                total-items="paginationOptions.totalItems"
+                                ng-model="paginationOptions.currentPage"
+                                ng-change="reloadGrid()"
+                                items-per-page="paginationOptions.itemsPerPage">
+                            </grid-pagination>
+                        </div>
+                        <button id="inventory" class="box-title btn btn-primary btn-flat" ng-click="$sic.setInventory($sic.inventoryVarients) ">Set Inventory</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>

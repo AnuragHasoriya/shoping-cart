@@ -1,3 +1,22 @@
 #minIcon{
     cursor : pointer;
 }
+
+#inventory {
+    right:0px;
+    float: right;
+    margin-top: 3%;
+    margin-right: 2%;
+}
+
+.scrollAway {
+    min-height: 200px;
+    max-height: 500px;  
+    overflow-y: scroll;
+  }
+
+  #minIcon-Edit {
+    color: #00c0ef;
+    size: 15px;
+    cursor: pointer;
+}

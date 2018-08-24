@@ -15,6 +15,8 @@
             getSubCategoryData : getSubCategoryData,
             getImageUrl : getImageUrl,
             deleteImage : deleteImage,
+            getProductKey : getProductKey,
+            getProdForInvent : getProdForInvent
 
         }
 
@@ -52,7 +54,7 @@
                 var subCategoryList = firebase.database().ref().child("subCategory").orderByChild("categoryKey").equalTo(categoryKey);
                 subCategoryList.on('value', snapshot => {
                     if(snapshot.exists()) {
-                        var data = _.map(snapshot.val(), function(obj, key){
+                        var data = _.map(snapshot.val(), function(obj, key) {
                             obj.key = key
                             return obj 
                         })
@@ -62,6 +64,43 @@
                     }
                 });
             })
+        }
+
+        function getProductKey() {
+            return $q(function(resolve, reject) {
+                data = firebase.database().ref().child("inventory").orderByChild("productkey"); 
+                data.once("value", snapshot => {
+                    if(snapshot.exists()) {
+                        var data = _.map(snapshot.val(), function(obj, key) {
+                            obj.key = key
+                            return obj 
+                        })
+                        resolve(data)
+                    }
+                    else {
+                        reject();
+                    }
+                })
+            })
+        }
+
+        function getProdForInvent(keyArrayObj) {
+            key = keyArrayObj.productkey;
+            totalStock = keyArrayObj.totalStock
+            return $q(function(resolve, reject) {
+                var pro = firebase.database().ref().child("products").child(key);
+                pro.once("value", fetchData => {
+                    if(fetchData.exists()) {
+                        var data = fetchData.val();
+                        data.key = key;
+                        data.inventoryCount = keyArrayObj.totalStock;
+                        resolve(data)
+                    } else {
+                        reject();
+                    }
+                })
+                
+            }) 
         }
 
         function deleteData(tableName, rowKey, callback) {

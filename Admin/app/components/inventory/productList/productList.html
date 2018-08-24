@@ -1,14 +1,14 @@
-<div class="content-wrapper" style="min-height: 916px;" ng-init="$invc.init()">
+<div id="productList" class="content-wrapper" ng-init="$plc.init()" style="min-height: 916px;">
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Inventory Details</h3> 
+                <h3 class="box-title">Product List</h3> 
                 <toaster-container></toaster-container>
             </div>
             <div class="box-header">
                 <div class="box-body table-responsive no-padding">
-                    <button class="btn btn-primary btn-flat ng-scope" ng-click="$invc.goToAdd()" >Add Inventory</button>
-                    <div grid-data ng-if="$invc.products.data.length > 0" grid-options="$invc.products" grid-actions="gridActions">
+                    <div grid-data ng-if="$plc.productTableData.data.length > 0" grid-options="$plc.productTableData" grid-actions="gridActions">
+                        
                         <div class="form-group">
                             <grid-pagination max-size="10"
                                 boundary-links="true"
@@ -18,6 +18,7 @@
                                 ng-change="reloadGrid()"
                                 items-per-page="paginationOptions.itemsPerPage"></grid-pagination>
                         </div>
+                        
                         <table class="table">
                             <thead> 
                                 <tr>
@@ -35,10 +36,7 @@
                                     </th>
                                     <th>
                                         Price
-                                    </th> 
-                                    <th>
-                                       Stock
-                                    </th> 
+                                    </th>  
                                     <th>
                                         Action
                                     </th>
@@ -61,22 +59,20 @@
                                     <td>
                                         <span ng-if="!item.isNew"  ng-bind="item.price"></span>
                                     </td>
+                                   
+                                    
                                     <td>
-                                        <span ng-if="!item.isNew"  ng-bind="item.inventoryCount"></span>
-                                    </td>
-                                
-                                    <td>
-                                        <i id="minIcon-Edit" class = "fa fa-edit" ng-click="$invc.editInventory(item)"></i>
+                                        <button  class="box-title btn btn-primary btn-flat" ng-click="$plc.setInventory(item)">set Inventory</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div ng-if="$invc.productTableData.data.length == 0">
+                    <div ng-if="$plc.productTableData.data.length == 0">
                         There is no data
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
