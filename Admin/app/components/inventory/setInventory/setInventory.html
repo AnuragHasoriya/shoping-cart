@@ -33,19 +33,19 @@
                         <tbody>          
                             <tr>
                                 <td>
-                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.categoryname"></span>
+                                    <span ng-bind="$sic.productDetails.categoryname"></span>
                                 </td>
                                 <td>
-                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.subCategoryName"></span>
+                                    <span ng-bind="$sic.productDetails.subCategoryName"></span>
                                 </td>
                                 <td>
-                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.name"></span>
+                                    <span ng-bind="$sic.productDetails.name"></span>
                                 </td>
                                 <td>
-                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.brandName"></span>
+                                    <span ng-bind="$sic.productDetails.brandName"></span>
                                 </td>
                                 <td>
-                                    <span ng-if="!item.isNew"  ng-bind="$sic.productDetails.price"></span>
+                                    <span ng-bind="$sic.productDetails.price"></span>
                                 </td>
                             
                                 <td>
@@ -74,6 +74,9 @@
                                     <th>
                                         Inventory Count 
                                     </th>
+                                    <th>
+                                        Price
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody grid-item>
@@ -83,15 +86,20 @@
                                     <td>
                                         <span ng-bind="item.varient"></span>
                                     </td>
-                                    <td>
-                                        <form name="invFrom">
+                                    <form name="invFrom">
+                                        <td>
                                             <div class="form-group" ng-class="{ 'has-error':  invFrom.inputCon.$invalid && !invFrom.inputCon.$pristine}" >                                            
                                                 <div>
                                                     <input type="number" class="form-control" ng-if="$sic.totalCount" min="0"  name="inputCon" ng-model="item.value" required>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </td>
+                                        </td>
+                                        <td> 
+                                            <div class="form-group" ng-class="{ 'has-error':  invFrom.inputCon.$invalid && !invFrom.inputCon.$pristine}" >   
+                                                <input type="number" class="form-control" ng-if="$sic.totalCount" min="0"  name="inputPrice" ng-model="item.price" required>    
+                                            </div>   
+                                        </td>
+                                    </form>
                                 </tr>
                             </tbody>
                         </table>
@@ -105,7 +113,7 @@
                                 items-per-page="paginationOptions.itemsPerPage">
                             </grid-pagination>
                         </div>
-                        <button id="inventory" class="box-title btn btn-primary btn-flat" ng-click="$sic.setInventory($sic.inventoryVarients) ">Set Inventory</button>
+                        <button id="inventory" class="box-title btn btn-primary btn-flat" ng-click="$sic.setInventory($sic.inventoryVarients) ">Save Inventory</button>
                         
                     </div>
                 </div>

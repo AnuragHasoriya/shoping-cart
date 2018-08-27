@@ -98,7 +98,7 @@
             })
             .state("adminCart.setInventory", {
                 cache : true,
-                url : "/inventory/add/set/:table/:key",
+                url : "/inventory/set/:table/:paramKey",
                 views : {
                     "content" : {
                         templateUrl : "app/components/inventory/setInventory/setInventory.html",

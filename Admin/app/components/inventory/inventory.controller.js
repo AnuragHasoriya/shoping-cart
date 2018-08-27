@@ -55,9 +55,9 @@
 
         function editInventory(item) {
             inventoryData.forEach(function(obj) {
-                key = obj.key
                 if(obj.productkey == item.key) {
-                    $state.go("adminCart.setInventory", {table:"inventory", key })
+                    paramKey = obj.key
+                    $state.go("adminCart.setInventory", {table:"inventory", paramKey })
                 }
             })
             console.log(item)

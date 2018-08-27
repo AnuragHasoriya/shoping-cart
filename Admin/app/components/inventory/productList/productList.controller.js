@@ -24,8 +24,10 @@
 
         function getProductData() {
             vm.productTableData.data = [];
-            var promise = firebaseService.getData("products");
-            promise.then(successGetData, faliureGetData)
+            var promise = firebaseService.getProductForInventory("products");
+            promise.then(successGetData, faliureGetData);
+            // var promise = firebaseService.getData("products");
+            // promise.then(successGetData, faliureGetData)
         }
 
         function successGetData(data) {
@@ -53,8 +55,8 @@
         }
 
         function setInventory(product) {
-            key = product.key;
-            $state.go("adminCart.setInventory", {table:"products", key});
+            paramKey = product.key;
+            $state.go("adminCart.setInventory", {table:"products", paramKey});
         }
 
         

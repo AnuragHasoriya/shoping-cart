@@ -14,8 +14,8 @@
         vm.totalCount = null;   
         vm.setInventory = setInventory;
         vm.inputCon = null;
-        vm.emptyRows = null;
         var inventoryArray = [];
+        var varientList = null;
         
         
         function init() {
@@ -27,8 +27,9 @@
                 }
             };
             tableName = $state.params.table;
-            key = $state.params.key; 
+            key = $state.params.paramKey; 
             if(tableName == "products") {
+                productKey = key;
                 var promise = productService.getProductData(key, tableName);
                 promise.then(successGetData, faliureGetData);
             } else {
@@ -39,8 +40,8 @@
         }
 
         function gotInventory(data) {
-            // vm.inventoryVarients.data = data;
-            key = data.key;
+            varientList = data;
+            key = data.productkey;
             tableName = "products";
             var promise = productService.getProductData(key, tableName);
                 promise.then(successGetData, faliureGetData);
@@ -54,8 +55,16 @@
                     obj.subCategoryName = res;
                     timeout(function() {
                         vm.productDetails = obj;
-                        varients = vm.productDetails.varients;
-                        sortVarients(varients);
+                        if(varientList) {
+                            vm.totalCount = varientList.totalStock;
+                            vm.inventoryVarients.data = varientList.stock;
+
+
+                        } else {
+                            varients = vm.productDetails.varients;
+                            sortVarients(varients);
+                        }
+                        
                     },10);
                 })
             })
@@ -87,27 +96,47 @@
             if(vm.totalCount) {
                 inventoryArray = arr.data; 
                 inventoryArray.forEach(function(data) {
-                    if(data.value == undefined) {
+                    if(data.value == undefined || data.price == undefined) {
                         vm.inputCon = true;
-                        vm.emptyRows = vm.emptyRows + 1; 
                     } else {
                         count = count + data.value;
                     }
                 })
-                if(vm.totalCount = count) {
+            } else {
+                toaster.pop("error", "Error", "Varient or Price Empty");
+            }
+            if(vm.totalCount == count) {
+                if(varientList) {
+                    var inventoryKey = varientList.key;
+                    firebase.database().ref().child("inventory").child(inventoryKey).update({
+                        stock : inventoryArray,
+                        totalStock : vm.totalCount
+                    })
+                } else {
                     firebase.database().ref().child("inventory").push({
                         productkey : productKey,
                         stock : inventoryArray,
                         totalStock : vm.totalCount
                     })
-                    $state.go("adminCart.inventory")
-                } 
-                else {
+
+                    firebaseService.updateInventoryStatus("products", productKey, callBack);
+                    
+                    function callBack(msg) {
+                        toaster.pop("info", "Inventory Set", msg);
+                    }
+
+                }
+                $state.go("adminCart.inventory");
+            } 
+            else {
+               
+                if(vm.inputCon == true) {
+                    toaster.pop("error", "Error", "Inventory Count or price field empty ");
+                } else {
                     vm.chechValues = true;
-                } 
-            } else {
-                toaster.pop("error", "Error", "Total Varient Empty")
-            }
+                    toaster.pop("error", "Error", "Total count does not match Inventory Count")
+                }
+            } 
 
         }
 

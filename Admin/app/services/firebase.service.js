@@ -13,10 +13,12 @@
             deleteData : deleteData,
             updateData : updateData,
             getSubCategoryData : getSubCategoryData,
+            getProductForInventory : getProductForInventory,
             getImageUrl : getImageUrl,
             deleteImage : deleteImage,
             getProductKey : getProductKey,
-            getProdForInvent : getProdForInvent
+            getProdForInvent : getProdForInvent,
+            updateInventoryStatus : updateInventoryStatus
 
         }
 
@@ -29,7 +31,7 @@
             return firebase.auth().signOut();
         }
 
-        function getCurrentUser(){
+        function getCurrentUser() {
             return firebase.auth().currentUser;
         }
 
@@ -37,7 +39,7 @@
             return $q(function(resolve, reject){ 
                 firebase.database().ref().child(tableName).on('value', function(snapshot) {
                     if(snapshot.exists()) {
-                        var data = _.map(snapshot.val(), function(obj, key){
+                        var data = _.map(snapshot.val(), function(obj, key) {
                             obj.key = key
                             return obj 
                         })
@@ -46,6 +48,23 @@
                         reject("no rows present");
                     }
                 })
+            })
+        }
+
+        function getProductForInventory(tableName) {
+            return $q(function(resolve, reject) {
+                var productList = firebase.database().ref().child(tableName).orderByChild("inventorySet").equalTo(null);
+                productList.on('value', snapshot => {
+                    if(snapshot.exists()) {
+                        var data = _.map(snapshot.val(), function(obj, key) {
+                            obj.key = key
+                            return obj 
+                        })
+                        resolve(data)
+                    } else {
+                        reject("something went wrong");
+                    }
+                });
             })
         }
 
@@ -92,7 +111,7 @@
                 pro.once("value", fetchData => {
                     if(fetchData.exists()) {
                         var data = fetchData.val();
-                        data.key = key;
+                        data.key = keyArrayObj.productkey;
                         data.inventoryCount = keyArrayObj.totalStock;
                         resolve(data)
                     } else {
@@ -122,6 +141,13 @@
             firebase.database().ref().child(tableName).child(key).update({
                 name : rowKey.name,
                 description :rowKey.description  
+            });
+            return callback("Row updated");
+        }
+
+        function updateInventoryStatus(tableName, rowKey, callback) {
+            firebase.database().ref().child(tableName).child(key).update({
+                inventorySet : true
             });
             return callback("Row updated");
         }
